@@ -1,7 +1,7 @@
 # Epic WKhBuVK: Daily Check-In & Streaks
 
 **Phase:** 3 — Frontend
-**Status:** Implemented — 2026-08-30
+**Status:** Complete — 2026-08-30
 **Dependencies:** Epic Yz4JE9Z (Habit Management — the done-today control this epic adds lives on the habit cards built there)
 
 > **Brand:** Use the project's brand guidelines skill for the done-today control and streak
