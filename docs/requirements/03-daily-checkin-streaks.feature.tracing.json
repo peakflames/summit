@@ -1,0 +1,162 @@
+{
+  "feature_id": "03",
+  "feature_file": "03-daily-checkin-streaks.feature.md",
+  "generated": "2026-08-30",
+  "generator": "haiku-sub-agent via /peak-workflow:capture-requirements",
+  "requirements": [
+    {
+      "id": "TOR-03-UZhr9Mh",
+      "title": "The web application shall set a habit's streak to 1 when it is marked done for the first time",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Streak initialization on first completion implements automatic streak calculation, delivering the visible momentum goal by showing users they've begun their consecutive-day journey."
+          },
+          {
+            "section": "§ 8 — Key Business Scenarios",
+            "paraphrase": "Scenario 2 describes the daily check-in experience, and the first completion marks the beginning of the streak journey, starting users at 1 rather than 0."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 3,
+            "paraphrase": "When a user marks a habit done for the first time, the streak is set to 1, signaling that their consistent effort has begun and is being tracked."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-Gsh2K2S",
+      "title": "The web application shall increment a habit's streak by 1 when it is marked done on the day immediately following its last completion",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Consecutive-day streak incrementing embodies the visible momentum goal, rewarding consistency with an incrementing counter that motivates users to maintain their daily habit."
+          },
+          {
+            "section": "§ 8 — Key Business Scenarios",
+            "paraphrase": "Scenario 2 shows a returning user checking off a morning run and seeing the streak increment, delivering the dopamine hit that reinforces the habit loop."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 3,
+            "paraphrase": "The app checks the last completed date and increments the streak when the user marks done on the day after their last completion, recognizing consecutive effort."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-OAytR7l",
+      "title": "The web application shall not change a habit's streak if it is already marked done for today",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Idempotency in streak calculation ensures that marking a habit done multiple times in a day doesn't artificially inflate the streak, preserving honest tracking."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 3,
+            "paraphrase": "If a user accidentally clicks the done-today control twice, the app recognizes the habit is already marked done for today and makes no change to the streak."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-s6tFG4V",
+      "title": "The web application shall reset a habit's streak to 1, not increment it, when it is marked done after one or more missed days",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Streak reset after missed days enforces the consistency principle that the app rewards consecutive effort, not catch-up; missing a day means starting fresh at 1."
+          },
+          {
+            "section": "§ 8 — Key Business Scenarios",
+            "paraphrase": "Scenario 3 demonstrates that missing a day breaks the streak, resetting it to 0; this requirement implements that reset when the user resumes after a gap."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S3",
+            "step": 3,
+            "paraphrase": "When a user returns to mark a habit done after missing days, the streak is reset to 1, honestly reflecting that their consecutive-day chain has been broken and is being restarted."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-TSlF7BH",
+      "title": "The web application shall recalculate a habit's streak to 0 on load if a day was missed since its last completion",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "On-load streak recalculation ensures users always see honest, current streak state without ambiguity, even if they haven't opened the app for several days."
+          },
+          {
+            "section": "§ 10 — Data Strategy",
+            "paraphrase": "Streak recalculation happens synchronously on load by comparing lastCompletedDate to the current date, maintaining freshness without background processes or polling."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S3",
+            "step": 1,
+            "paraphrase": "When the app loads, it automatically detects missed days by comparing the stored last completion date to today and recalculates each habit's streak to reflect reality."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-sX0EJEU",
+      "title": "The web application shall display each habit's streak count as a visually prominent element on its card",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Visible momentum is achieved by making the streak count the most prominent element on each habit card, since it's the primary motivational signal driving user engagement."
+          },
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "The streak count is rendered larger and bolder than the habit name, making it the visual focal point and reinforcing its role as the key metric for user motivation."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 6,
+            "paraphrase": "The habit card displays the streak count prominently, giving the user immediate visual feedback about their consecutive-day achievement when they check in."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-b2dynoV",
+      "title": "The web application shall render a visually distinct state for a habit marked done today versus one not yet marked done",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "The design direction calls for a clear visual distinction between done-today and not-done-today states, understandable at a glance, so the user never has to guess whether today's check-in already happened."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 6,
+            "paraphrase": "When the card visually updates after a check-in, the done state must be immediately and unambiguously distinguishable from the not-done state shown on other habit cards."
+          }
+        ]
+      }
+    }
+  ],
+  "coverage_gaps": []
+}

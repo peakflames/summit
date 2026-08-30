@@ -1,0 +1,97 @@
+{
+  "feature_id": "04",
+  "feature_file": "04-persistence.feature.md",
+  "generated": "2026-08-30",
+  "generator": "haiku-sub-agent via /peak-workflow:capture-requirements",
+  "requirements": [
+    {
+      "id": "TOR-04-NuPmtfe",
+      "title": "The web application shall write the full habit dataset to localStorage immediately after any habit mutation",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Immediate writes to localStorage fulfill the no-data-loss goal, ensuring every user action is persisted without a save button, loading state, or network round-trip."
+          },
+          {
+            "section": "§ 10 — Data Strategy",
+            "paraphrase": "Every mutation triggers an immediate synchronous write to localStorage, which is the sole persistence layer and the sole system of record for the application."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 6,
+            "paraphrase": "After the user adds a habit, the app immediately persists the new record to localStorage, making it durable across browser sessions."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-04-8EEMGia",
+      "title": "The web application shall restore the full habit list from localStorage on reload with no data loss",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Persistent habit data across reloads fulfills the no-data-loss goal, enabling users to close the browser mid-session and resume exactly where they left off."
+          },
+          {
+            "section": "§ 8 — Key Business Scenarios",
+            "paraphrase": "Scenario 6 describes a user reopening the browser and seeing their habits, streaks, and completion states unchanged, which this requirement enables."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S6",
+            "step": 2,
+            "paraphrase": "On app startup, the system reads the full habit dataset from localStorage, deserializing and restoring all habit names, streaks, and completion states."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-04-LJb5Y0a",
+      "title": "The web application shall initialize an empty habit list without error when no prior data exists",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Graceful initialization on first visit supports zero-friction habit creation by immediately presenting the user with the empty-state prompt and add-habit input."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 1,
+            "paraphrase": "When a new user opens the app for the first time, localStorage contains no data; the app gracefully initializes an empty habit list and shows the empty-state guidance."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-04-tBD0NqR",
+      "title": "The web application shall perform all habit operations without issuing any network requests",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "No backend dependency is achieved by ensuring the app is fully functional offline, with all operations confined to client-side in-memory and localStorage state."
+          },
+          {
+            "section": "§ 10 — Data Strategy",
+            "paraphrase": "The browser tab is the entire runtime, and every operation is synchronous and local; there are no background processes, polling, or network calls."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": null,
+            "paraphrase": "The entire user journey — adding, checking off, archiving, and unarchiving habits — operates entirely within the browser with zero external dependencies."
+          }
+        ]
+      }
+    }
+  ],
+  "coverage_gaps": []
+}

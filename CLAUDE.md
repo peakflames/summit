@@ -82,6 +82,12 @@ be in `.gitignore`. Use environment variables, secret managers, or encrypted fil
 `/peak-workflow:wrapup-epic` includes these as default review items unless the project type
 makes them inapplicable.
 
+## Design & Planning Documents
+
+- [Product Vision](docs/product-vision-planning/product-vision.md)
+- [Concept of Operations](docs/product-vision-planning/concept-of-operations.md)
+- [Requirements Baseline](docs/requirements/) — TOR feature files and tracing sidecars
+
 ## Peak Workflow
 
 This project uses the `peak-workflow` plugin to manage requirements, planning, and

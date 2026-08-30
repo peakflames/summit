@@ -1,0 +1,150 @@
+{
+  "feature_id": "01",
+  "feature_file": "01-app-shell.feature.md",
+  "generated": "2026-08-30",
+  "generator": "haiku-sub-agent via /peak-workflow:capture-requirements",
+  "requirements": [
+    {
+      "id": "TOR-01-iavJayH",
+      "title": "The web application shall display its name and semantic version in the application footer, matching the version field in package.json",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "The app must demonstrate version transparency as part of its design discipline. This requirement supports the reference-implementation goal by making the version source single and visible."
+          },
+          {
+            "section": "§ 10 — Data Strategy",
+            "paraphrase": "Version display reinforces the principle of transparency in how the app communicates its operational state and code provenance to end users and reference-readers alike."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": null,
+            "paraphrase": "The version footer provides immediate context that the user is running a real, versioned application from the moment they first open it."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-01-GgOc6Zf",
+      "title": "The web application shall emit a log line on application startup containing its name and semantic version at INFO level, in human-readable plain text",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "This requirement embodies the reference-implementation goal of making the codebase's lifecycle visible and debuggable for developers who read it end-to-end."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": null,
+            "paraphrase": "The startup log message signals to developers that the app has initialized and is ready to serve the user, establishing confidence in the system's operational state."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-01-Ykw9Mz4",
+      "title": "The web application shall display guidance text and an add-habit input when the active habits list is empty",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "This supports the zero-friction habit creation goal by presenting the user with clear next-step guidance and an input field immediately, removing confusion on first use."
+          },
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "Guidance text in empty states aligns with the design principle of avoiding blank screens and providing helpful instruction rather than leaving users uncertain."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 1,
+            "paraphrase": "The empty-state guidance and add-habit input are the first interactive elements the user sees when opening the app, welcoming them to begin tracking."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-01-sSCWJrZ",
+      "title": "The web application shall display guidance text when the archived habits list is empty",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "Clear guidance text in empty archived states prevents user confusion and communicates that archiving is a working feature, even when no habits are currently archived."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S5",
+            "step": 2,
+            "paraphrase": "When a user switches to the Archived view, clear guidance text confirms they have no archived habits, making the system's behavior predictable and transparent."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-01-8FCo9h7",
+      "title": "The web application shall render a functional habit-list UI at a mobile viewport width",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "The requirement for mobile responsiveness aligns with the design principle that users often check in on habits via phone, making mobile usability essential for the core loop."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 2,
+            "paraphrase": "On mobile, the add-habit input and done-today control must remain clickable and discoverable, enabling the habit check-in experience on the device users carry everywhere."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-01-7ED8QkP",
+      "title": "The web application shall render a functional habit-list UI at a desktop viewport width",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "Full responsiveness across desktop and mobile ensures the app is equally usable across all devices and form factors, supporting the minimalist, single-screen design principle."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 2,
+            "paraphrase": "On desktop, the habit list and controls scale gracefully to take advantage of the larger screen while maintaining the single-screen, above-the-fold design principle."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-01-WZ9rUhS",
+      "title": "The web application shall present the add-habit input, the active/archived filter, and the habit list on a single page with no separate navigation pages",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "The design direction calls for a minimalist, single-screen layout with no navigation menu beyond the active/archived toggle, keeping the entire core loop reachable without leaving the page."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S3",
+            "step": null,
+            "paraphrase": "The proposed system description frames the browser tab as the only runtime, implying all core interactions happen on one continuously-updating view rather than across separate pages."
+          }
+        ]
+      }
+    }
+  ],
+  "coverage_gaps": []
+}
