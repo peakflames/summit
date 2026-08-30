@@ -127,7 +127,11 @@ implemented and project-specific constraints or gotchas emerge.)*
 
 ## Reference Materials
 
-*(None yet — no external docs or design references exist for this project yet.)*
+- **PeakFlames Design System** — Summit's visual language (dark obsidian canvas, flame/ember
+  accent, Archivo/IBM Plex Sans/JetBrains Mono type ramp). Token CSS is vendored byte-identical
+  into `src/styles/peakflames/` from the Claude Design project `11ea476f-926c-40ea-8d34-91522c12d907`
+  (see `docs/design-notes.md` §14 for the vendoring/additive-class rationale). Re-sync via
+  `DesignSync` `get_file` against that project ID if the design system is updated.
 
 ## Git Workflow
 
