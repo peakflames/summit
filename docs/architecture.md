@@ -128,9 +128,15 @@ N/A — no background jobs, scheduled tasks, or hosted services.
 
 `npm run build` runs `tsc --noEmit` for type checking, then `vite build`, producing a static
 `dist/` directory (HTML, JS, CSS) with no server-side component. `npm run preview` serves
-that `dist/` output locally for a production-like smoke check. There is no deployment
-pipeline or hosting target configured yet — `dist/` is a static bundle that can be served by
-any static file host once one is chosen.
+that `dist/` output locally for a production-like smoke check.
+
+Summit deploys to **GitHub Pages** (project page at `https://peakflames.github.io/summit/`).
+`.github/workflows/deploy-pages.yml` runs lint, tests, and the build on every push to `main`,
+then publishes `dist/` via `actions/upload-pages-artifact` + `actions/deploy-pages`. Because
+Pages serves project pages from `/<repo>/` rather than `/`, the build sets
+`base: '/summit/'` in `vite.config.ts` — gated behind a `GH_PAGES=true` env var the workflow
+sets, so local `dev`/`build`/`preview` are unaffected. See CLAUDE.md's Deployment section
+for details.
 
 ---
 
