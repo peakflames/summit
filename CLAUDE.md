@@ -120,10 +120,29 @@ Before marking an epic complete, run:
   `npm run dev` — exercise the golden path (add habit, mark done, streak updates, filter
   active/archived) and relevant edge cases.
 
+## Deployment
+
+Summit deploys to **GitHub Pages** as a static site, served as a project page at
+`https://peakflames.github.io/summit/`.
+
+- **Workflow:** `.github/workflows/deploy-pages.yml` runs on every push to `main` (plus
+  manual `workflow_dispatch`). It runs lint, tests, and `npm run build`, then publishes
+  `dist/` via `actions/upload-pages-artifact` + `actions/deploy-pages`.
+- **Repo setting:** Pages is configured with source **GitHub Actions** (not "Deploy from a
+  branch") — set via `gh api repos/peakflames/summit/pages -X POST -f build_type=workflow`.
+- **Base path:** GitHub Pages project pages are served from `/<repo>/`, not `/`. The
+  production build sets `base: '/summit/'` in `vite.config.ts`, gated behind a
+  `GH_PAGES=true` env var that only the deploy workflow sets — `npm run dev`, `npm run
+  build`, and `npm run preview` run locally continue to use root-relative paths
+  unaffected. Do not hardcode `/summit/` anywhere else; always resolve asset URLs through
+  Vite's `base` so a repo rename doesn't silently break the deployed build.
+
 ## Important Reminders
 
-*(None yet — this is a greenfield project with no code. Revisit after the first epic is
-implemented and project-specific constraints or gotchas emerge.)*
+- Local production-build parity: `npm run build && npm run preview` deliberately does NOT
+  reproduce the GitHub Pages base path (see Deployment above) — a blank page under
+  `/summit/` in production but a working page under `npm run preview` is expected, not a
+  regression, unless you also set `GH_PAGES=true` locally.
 
 ## Reference Materials
 
