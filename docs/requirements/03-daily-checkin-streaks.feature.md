@@ -50,3 +50,20 @@ Scenario: [TOR-03-b2dynoV] The web application shall render a visually distinct 
     Given one habit marked done today and one habit not yet marked done today
     When the user views the Active habits view
     Then the done-today control's visual state (e.g., fill or color) should differ observably between the two cards, such that a viewer can distinguish "done" from "not done" at a glance
+
+
+# --------------------------------------------------------------------------------------------------
+# Streak Continuation Hint (added 2026-08-30)
+# --------------------------------------------------------------------------------------------------
+
+Scenario: [TOR-03-2OgotAa] The web application shall display a static hint near each habit's streak count explaining that marking done tomorrow continues the streak and a missed day resets it to 1
+    Given a habit card showing a streak count
+    When the user views the Active habits view
+    Then the card should display hint text near the streak count matching /continue|resets/i
+    And no additional user interaction (click, hover, or tap) should be required to see the hint text
+
+Scenario: [TOR-03-MvP98PX] The web application shall render the streak hint as always-visible static text rather than a dismissible popup, toast, or hover-triggered overlay
+    Given a habit card with the streak hint displayed
+    When the user takes no action on the card
+    Then the hint text should remain present and visible in the card's markup
+    And the hint should not appear or disappear based on any hover, click, or timed dismissal behavior

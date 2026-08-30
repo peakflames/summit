@@ -156,6 +156,48 @@
           }
         ]
       }
+    },
+    {
+      "id": "TOR-03-2OgotAa",
+      "title": "The web application shall display a static hint near each habit's streak count explaining that marking done tomorrow continues the streak and a missed day resets it to 1",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 6 — MVP Scope Summary",
+            "paraphrase": "The MVP scope explicitly requires a streak continuation hint displayed as a short static line near the streak count to explain how to maintain the streak and what triggers a reset to 1."
+          },
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "The design direction mandates the streak-continuation hint as persistent static text on the habit card, providing continuous guidance about streak mechanics without intrusive notifications or popups."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 7,
+            "paraphrase": "The static streak-continuation hint remains visible next to the streak count during daily check-in, ensuring users understand the mechanics for continuing their streak and the consequences of missed days."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-03-MvP98PX",
+      "title": "The web application shall render the streak hint as always-visible static text rather than a dismissible popup, toast, or hover-triggered overlay",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "The design explicitly commits to always-visible static hint text on the habit card, rejecting dismissible popups, toasts, and hover overlays to maintain a calm, minimalist interface consistent with the product's philosophy."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 7,
+            "paraphrase": "The hint text must remain constantly present in the card's markup without disappearing based on hover, click, or automatic dismissal, ensuring users can always reference the streak continuation rules."
+          }
+        ]
+      }
     }
   ],
   "coverage_gaps": []
