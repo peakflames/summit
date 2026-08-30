@@ -48,7 +48,33 @@ N/A — there is no backend.
 
 ## 6. Frontend Architecture
 
-*(to be completed during implementation — pages, component hierarchy, data fetching patterns)*
+Single-page app with no router — one screen, rendered imperatively with the DOM API (no
+framework). Component hierarchy:
+
+```
+src/main.ts            — bootstrap: emits the startup console.info line, then mounts the app
+  src/App.ts            — mountApp(root): owns all shell state, renders <main> on every change
+    src/components/Footer.ts       — `Summit v<version>` footer
+    src/components/EmptyState.ts   — guidance text for the empty active/archived views
+    src/components/HabitCard.ts    — one habit's name, done-today toggle, archive toggle
+```
+
+`src/App.ts` currently owns a **module-scoped, in-memory `ShellHabit[]` array** as a walking
+skeleton — introduced in Epic U4nHItd so the add-habit input, filter, and habit-card TORs are
+verifiable before persistence and real habit-management logic exist. It is replaced piece by
+piece by later epics:
+
+- Epic 1WIBPa0 (Local Persistence) replaces the in-memory array with a `localStorage`-backed
+  store module (`src/storage/habitStore.ts`), so state survives a page reload.
+- Epic Yz4JE9Z (Habit Management) adds name validation and real archive/unarchive semantics.
+- Epic WKhBuVK (Daily Check-In & Streaks) adds streak math behind the existing done-today
+  button in `HabitCard`.
+
+The app version is a **compile-time constant** (`__APP_VERSION__`), injected by Vite's
+`define` in `vite.config.ts` from `package.json`'s `version` field — not imported into
+`src/` at runtime — per CLAUDE.md's "Version single source of truth" convention. The same
+`vite.config.ts` config also configures Vitest (`test.environment: 'jsdom'`), so
+`__APP_VERSION__` is substituted in unit tests too.
 
 ---
 
@@ -60,7 +86,11 @@ N/A — no background jobs, scheduled tasks, or hosted services.
 
 ## 8. Container / Infrastructure
 
-*(to be completed during implementation — build pipeline, static hosting/deployment model)*
+`npm run build` runs `tsc --noEmit` for type checking, then `vite build`, producing a static
+`dist/` directory (HTML, JS, CSS) with no server-side component. `npm run preview` serves
+that `dist/` output locally for a production-like smoke check. There is no deployment
+pipeline or hosting target configured yet — `dist/` is a static bundle that can be served by
+any static file host once one is chosen.
 
 ---
 

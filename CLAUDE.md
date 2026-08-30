@@ -115,12 +115,10 @@ Before marking an epic complete, run:
 
 - **Build:** `npm run build`
 - **Lint/format:** `npm run lint`
+- **Unit tests:** `npm test`
 - **Browser verification:** automated check via the `playwright-cli` skill against
   `npm run dev` — exercise the golden path (add habit, mark done, streak updates, filter
   active/archived) and relevant edge cases.
-
-*(Commands assume the standard Vite + TypeScript scaffold's `package.json` scripts —
-confirm they match once the project is scaffolded.)*
 
 ## Important Reminders
 
