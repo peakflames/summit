@@ -1,6 +1,6 @@
 # Summit — Product Vision & Brief
 
-**Document Version:** 1.0
+**Document Version:** 1.1
 **Date:** 2026-08-30
 **Status:** Draft
 
@@ -62,6 +62,8 @@ it done, and watch their streak grow, all stored privately in their own browser.
 **Habit List View**
 - Add a new habit (name only, no extra metadata required)
 - Display all active habits with: name, current streak count, done/not-done state for today
+- Streak continuation hint: a short static line near the streak count explains how to keep the
+  streak going (e.g., "Mark done tomorrow to continue — a missed day resets to 1")
 - Mark a habit done for today (toggle)
 - Archive a habit (removes it from the active list)
 
@@ -129,6 +131,8 @@ and no loading spinner, because everything was persisted locally.
   blank screen.
 - Neutral, calm color palette — this is a personal productivity tool, not a gamified/social
   app; avoid aggressive notification-style UI patterns.
+- The streak-continuation hint is static, secondary-styled text always rendered on the card —
+  not a toast/popup/notification — consistent with avoiding aggressive notification-style UI.
 - Fully responsive — usable on both desktop and mobile browser widths, since a habit check-in
   often happens on a phone.
 
