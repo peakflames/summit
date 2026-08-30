@@ -45,7 +45,7 @@ built end-to-end using the plugin's requirements-driven lifecycle. The token spe
 more than application code — it includes generating and maintaining the full set of SLCD
 (Software Life Cycle Data) artifacts and requirements-to-code traceability, produced to a rigor
 sufficient for a DO-330 TQL-5 engineering tool. Below is a one-day snapshot of Claude Code usage
-while building Summit v0.3.0 with peak-workflow v1.5.0:
+while building Summit v0.3.0 with Claude Code CLI version 2.1.251 and peak-workflow v1.5.0:
 
 | Model | Cost | Tokens |
 |-------|------|--------|
@@ -53,7 +53,6 @@ while building Summit v0.3.0 with peak-workflow v1.5.0:
 | claude-opus-5 | $12.26 | 99K tok |
 | claude-haiku-4-5-20251001 | $1.43 | 56K tok |
 
-- Claude Code CLI version 2.1.251
 - Cache hit at 99% — most prompts reuse cache
 - 84% one-shot — edits landing first try
 
