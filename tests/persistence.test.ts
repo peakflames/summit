@@ -103,18 +103,18 @@ describe('persistence', () => {
 
     clickFilter(secondRoot, 'Active')
     const readCard = findCard(secondRoot, 'Read')!
-    expect(readCard.querySelector('.habit-card__streak')?.textContent).toBe(
-      'Streak: 5',
-    )
+    expect(
+      readCard.querySelector('.habit-card__streak-value')?.textContent,
+    ).toBe('5')
     expect(
       readCard.querySelector('.habit-card__archive-btn')?.textContent,
     ).toBe('Archive')
 
     clickFilter(secondRoot, 'Archived')
     const stretchCard = findCard(secondRoot, 'Stretch')!
-    expect(stretchCard.querySelector('.habit-card__streak')?.textContent).toBe(
-      'Streak: 0',
-    )
+    expect(
+      stretchCard.querySelector('.habit-card__streak-value')?.textContent,
+    ).toBe('0')
     expect(
       stretchCard.querySelector('.habit-card__archive-btn')?.textContent,
     ).toBe('Unarchive')

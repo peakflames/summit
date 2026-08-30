@@ -49,7 +49,7 @@ N/A — there is no backend.
 ## 6. Frontend Architecture
 
 Single-page app with no router — one screen, rendered imperatively with the DOM API (no
-framework). Component hierarchy (decomposed in Epic Yz4JE9Z):
+framework). Component hierarchy (decomposed across Epics Yz4JE9Z and WKhBuVK):
 
 ```
 src/main.ts              — bootstrap: emits the startup console.info line, then mounts the app
@@ -58,13 +58,14 @@ src/main.ts              — bootstrap: emits the startup console.info line, the
     renderFilterToggle()    — src/components/FilterToggle.ts
     renderHabitList()       — src/components/HabitList.ts
       renderHabitCard()       — src/components/HabitCard.ts (per habit)
+        renderStreakBadge()     — src/components/StreakBadge.ts (displays streak count)
       renderEmptyState()      — src/components/EmptyState.ts (when no habits in view)
     renderFooter()         — src/components/Footer.ts
 ```
 
 ### State Management
 
-State is split across three layers:
+State is split across four layers:
 
 - **Persistence:** `src/storage/habitStore.ts` and `src/storage/streakRecalculation.ts`
   - `loadHabits()` / `saveHabits()` against the namespaced `summit.habits` key in
@@ -77,6 +78,11 @@ State is split across three layers:
   - `addHabit(habits, name)` — inserts a new habit, calls `saveHabits()`
   - `archiveHabit(habits, target)` / `unarchiveHabit(habits, target)` — mutate archived state,
     call `saveHabits()`
+  - `markDone(habits, target, today)` — applies streak arithmetic via `markDoneStreak()`,
+    persists via `saveHabits()`
+- **Streak logic:** `src/state/streakLogic.ts`
+  - `markDoneStreak(habit, today)` — pure function implementing increment/no-op/reset rules:
+    returns no-op if already done today, increments if completed yesterday, resets to 1 otherwise
 - **View state:** `src/state/viewState.ts`
   - `createViewState()` — encapsulates the current filter view (Active / Archived)
   - `filterHabits(habits, view)` — filters the habit list by view
@@ -85,10 +91,6 @@ State is split across three layers:
 (so a staleness reset survives the session) before the first render. Every subsequent mutation
 (add, done-today toggle, archive/unarchive) calls `saveHabits()` synchronously before
 re-rendering, guaranteeing the write completes before the next user action is possible.
-
-**Ongoing work:**
-- The done-today toggle (in `HabitCard`) only writes `lastCompletedDate`; it does not
-  increment `streak` — that is Epic WKhBuVK's (Daily Check-In & Streaks) responsibility.
 
 The app version is a **compile-time constant** (`__APP_VERSION__`), injected by Vite's
 `define` in `vite.config.ts` from `package.json`'s `version` field — not imported into

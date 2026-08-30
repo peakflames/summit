@@ -3,7 +3,12 @@ import { renderFilterToggle } from './components/FilterToggle'
 import { renderFooter } from './components/Footer'
 import { renderHabitList } from './components/HabitList'
 import type { Habit } from './models/Habit'
-import { addHabit, archiveHabit, unarchiveHabit } from './state/habitActions'
+import {
+  addHabit,
+  archiveHabit,
+  markDone,
+  unarchiveHabit,
+} from './state/habitActions'
 import { createViewState } from './state/viewState'
 import { loadHabits, saveHabits } from './storage/habitStore'
 import {
@@ -55,9 +60,8 @@ function render(root: HTMLElement): void {
       viewState.getView(),
       (habit) => isDoneToday(habit, today),
       {
-        onToggleDone: (target) => {
-          target.lastCompletedDate = isDoneToday(target, today) ? null : today
-          saveHabits(habits)
+        onMarkDone: (target) => {
+          markDone(habits, target, today)
           render(root)
         },
         onArchive: (target) => {

@@ -1,7 +1,8 @@
 import type { Habit } from '../models/Habit'
+import { renderStreakBadge } from './StreakBadge'
 
 export type HabitCardHandlers = {
-  onToggleDone: (habit: Habit) => void
+  onMarkDone: (habit: Habit) => void
   onArchive: (habit: Habit) => void
   onUnarchive: (habit: Habit) => void
 }
@@ -19,17 +20,21 @@ export function renderHabitCard(
   name.textContent = habit.name
   item.append(name)
 
-  const streak = document.createElement('span')
-  streak.className = 'habit-card__streak'
-  streak.textContent = `Streak: ${habit.streak}`
-  item.append(streak)
+  item.append(renderStreakBadge(habit))
 
   const doneButton = document.createElement('button')
   doneButton.type = 'button'
   doneButton.className = 'habit-card__done-btn'
   doneButton.classList.toggle('is-done', doneToday)
-  doneButton.textContent = 'Done today'
-  doneButton.addEventListener('click', () => handlers.onToggleDone(habit))
+  if (doneToday) {
+    doneButton.disabled = true
+    doneButton.textContent = 'Done ✓'
+    doneButton.setAttribute('aria-label', `${habit.name} is done today`)
+  } else {
+    doneButton.textContent = 'Done today'
+    doneButton.setAttribute('aria-label', `Mark ${habit.name} done today`)
+  }
+  doneButton.addEventListener('click', () => handlers.onMarkDone(habit))
   item.append(doneButton)
 
   const archiveButton = document.createElement('button')

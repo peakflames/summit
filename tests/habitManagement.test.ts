@@ -67,8 +67,8 @@ describe('habit management', () => {
 
     const card = findCard(root, 'Drink 8 glasses of water')!
     expect(card).toBeDefined()
-    expect(card.querySelector('.habit-card__streak')?.textContent).toBe(
-      'Streak: 0',
+    expect(card.querySelector('.habit-card__streak-value')?.textContent).toBe(
+      '0',
     )
     expect(
       card

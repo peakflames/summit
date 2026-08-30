@@ -11,7 +11,7 @@ export function isDoneToday(habit: Habit, today: string): boolean {
   return habit.lastCompletedDate === today
 }
 
-function yesterdayOf(today: string): string {
+export function yesterdayOf(today: string): string {
   const [year, month, day] = today.split('-').map(Number)
   const date = new Date(year, month - 1, day)
   date.setDate(date.getDate() - 1)
