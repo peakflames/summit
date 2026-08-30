@@ -49,9 +49,11 @@ implementation plan lives in `docs/implementation-plan/`.
 
 **Install:**
 
+From a terminal, run the following commands individually:
+
 ```
-/plugin marketplace add peakflames/claude-plugins-peakflames
-/plugin install peak-workflow@peakflames-plugins
+claude plugin marketplace add peakflames/claude-plugins-peakflames
+claude plugin install peak-workflow@peakflames-plugins
 ```
 
 **Common commands** (invoke as `/peak-workflow:<name>` inside Claude Code):
