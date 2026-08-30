@@ -1,7 +1,7 @@
 # Epic Yz4JE9Z: Habit Management
 
 **Phase:** 3 — Frontend
-**Status:** Implemented — 2026-08-30
+**Status:** Complete — 2026-08-30
 **Dependencies:** Epic 1WIBPa0 (Local Persistence — habit mutations in this epic read/write through that layer)
 
 > **Brand:** Use the project's brand guidelines skill for habit-card layout, filter controls,
