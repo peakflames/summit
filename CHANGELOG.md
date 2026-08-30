@@ -18,6 +18,10 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.3.0] — UNDER DEVELOPMENT
 
 ### Added
+
+- Deployed Summit to GitHub Pages via a GitHub Actions workflow that lints, tests, and
+  builds on every push to `main`, publishing the result automatically.
+
 ### Changed
 ### Fixed
 
