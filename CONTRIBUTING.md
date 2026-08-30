@@ -19,14 +19,14 @@ npm run demo     # same, pre-seeded with sample habits
 
 ## Available Scripts
 
-| Script | Purpose |
-|---|---|
-| `npm run dev` | Start the Vite dev server |
-| `npm run demo` | Start the dev server pre-seeded with demo habit data |
-| `npm run build` | Type-check (`tsc --noEmit`) and build for production |
-| `npm run lint` | ESLint + `prettier --check` |
-| `npm run format` | Auto-format with Prettier |
-| `npm test` | Run the Vitest suite |
+| Script           | Purpose                                              |
+| ---------------- | ---------------------------------------------------- |
+| `npm run dev`    | Start the Vite dev server                            |
+| `npm run demo`   | Start the dev server pre-seeded with demo habit data |
+| `npm run build`  | Type-check (`tsc --noEmit`) and build for production |
+| `npm run lint`   | ESLint + `prettier --check`                          |
+| `npm run format` | Auto-format with Prettier                            |
+| `npm test`       | Run the Vitest suite                                 |
 
 ## Before You Commit
 
@@ -58,16 +58,16 @@ claude plugin install peak-workflow@peakflames-plugins
 
 **Common commands** (invoke as `/peak-workflow:<name>` inside Claude Code):
 
-| Command | Example | What it does |
-|---|---|---|
-| `status` | `/peak-workflow:status` | Read-only dashboard — epic progress, requirements coverage, next actions |
-| `triage` | `/peak-workflow:triage "add CSV export"` | Sizes an incoming request as HEAVY / EPIC / TRIVIAL |
-| `add` | `/peak-workflow:add "sort habits by streak length"` | Adds a new epic against existing TOR IDs |
-| `start-epic` | `/peak-workflow:start-epic a3f2K7p` | Implements an epic against its TOR requirements |
-| `wrapup-epic` | `/peak-workflow:wrapup-epic a3f2K7p` | Independently verifies and closes out a completed epic |
-| `pause` | `/peak-workflow:pause` | Saves progress and stops mid-epic |
-| `quick-fix` | `/peak-workflow:quick-fix "empty input shows wrong error text"` | Lightweight path for trivial bugs (~2 hours or less) |
-| `refresh-docs` | `/peak-workflow:refresh-docs` | Syncs `architecture.md` / `design-notes.md` to the as-built code |
+| Command        | Example                                                         | What it does                                                             |
+| -------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `status`       | `/peak-workflow:status`                                         | Read-only dashboard — epic progress, requirements coverage, next actions |
+| `triage`       | `/peak-workflow:triage "add CSV export"`                        | Sizes an incoming request as HEAVY / EPIC / TRIVIAL                      |
+| `add`          | `/peak-workflow:add "sort habits by streak length"`             | Adds a new epic against existing TOR IDs                                 |
+| `start-epic`   | `/peak-workflow:start-epic a3f2K7p`                             | Implements an epic against its TOR requirements                          |
+| `wrapup-epic`  | `/peak-workflow:wrapup-epic a3f2K7p`                            | Independently verifies and closes out a completed epic                   |
+| `pause`        | `/peak-workflow:pause`                                          | Saves progress and stops mid-epic                                        |
+| `quick-fix`    | `/peak-workflow:quick-fix "empty input shows wrong error text"` | Lightweight path for trivial bugs (~2 hours or less)                     |
+| `refresh-docs` | `/peak-workflow:refresh-docs`                                   | Syncs `architecture.md` / `design-notes.md` to the as-built code         |
 
 For first-time project setup (`discover`, `capture-requirements`, `plan-project`) or migration
 commands, see the plugin's own README.
