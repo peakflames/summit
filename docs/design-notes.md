@@ -74,7 +74,21 @@ make "was this done today/yesterday" comparisons trivial string equality instead
 arithmetic. Splitting staleness recalculation (load-time) from increment (mutation-time) lets
 each epic own one clear lifecycle moment without the two streak epics stepping on each other.
 
-## 5. Known Issues and Deferred Work
+## 5. Test infrastructure: localStorage polyfill for Node 22+ compatibility
+
+**Decision:** `tests/setup.ts` installs a minimal in-memory `MemoryStorage` class
+(implementing the `Storage` interface) onto `globalThis.localStorage` before tests run.
+This is scoped to the test environment only — the browser app uses the real `localStorage`
+API.
+
+**Rationale:** Node 22+'s experimental native `localStorage` global shadows `jsdom`'s
+working implementation, and Vitest's jsdom allowlist predates Node's native global, leaving
+`localStorage` non-functional in tests. The polyfill restores test compatibility without
+affecting the production app. This approach is transparent to test code: all `localStorage`
+calls work as expected in both unit tests (against the polyfill) and browser verification
+(against the real API).
+
+## 6. Known Issues and Deferred Work
 
 - **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
   404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.

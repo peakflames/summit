@@ -85,8 +85,14 @@ Epic WKhBuVK's responsibility. Remaining replacement work:
 The app version is a **compile-time constant** (`__APP_VERSION__`), injected by Vite's
 `define` in `vite.config.ts` from `package.json`'s `version` field — not imported into
 `src/` at runtime — per CLAUDE.md's "Version single source of truth" convention. The same
-`vite.config.ts` config also configures Vitest (`test.environment: 'jsdom'`), so
-`__APP_VERSION__` is substituted in unit tests too.
+`vite.config.ts` config also configures Vitest (`test.environment: 'jsdom'`, `setupFiles:
+['./tests/setup.ts']`), so `__APP_VERSION__` is substituted in unit tests too.
+
+**Test environment note:** Node 22+'s experimental native `localStorage` global shadows
+`jsdom`'s working implementation, leaving `localStorage` non-functional in Vitest tests.
+`tests/setup.ts` works around this by installing a minimal in-memory `MemoryStorage`
+polyfill (`implements Storage`) onto `globalThis` before tests run — the app itself touches
+only the real browser `localStorage` API.
 
 ---
 
