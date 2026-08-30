@@ -29,7 +29,8 @@ required.
 
 ## Development
 
-See [CLAUDE.md](CLAUDE.md) for the project's development workflow conventions.
+See [CLAUDE.md](CLAUDE.md) for the project's development workflow conventions, and
+[CONTRIBUTING.md](CONTRIBUTING.md) for available scripts and contribution guidelines.
 
 ## License
 
