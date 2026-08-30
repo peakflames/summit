@@ -121,6 +121,24 @@ body {
   font-weight: 500;
 }
 
+.habit-card__streak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+.habit-card__streak-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.habit-card__streak-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
 .habit-card__done-btn,
 .habit-card__archive-btn {
   min-height: 44px;
@@ -139,6 +157,11 @@ body {
   background: var(--color-done-bg);
   color: var(--color-done-text);
   font-weight: 600;
+  cursor: default;
+}
+
+.habit-card__done-btn.is-done:disabled {
+  opacity: 1;
 }
 
 .empty-state {

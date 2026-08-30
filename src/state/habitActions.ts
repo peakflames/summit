@@ -1,5 +1,6 @@
 import type { Habit } from '../models/Habit'
 import { saveHabits } from '../storage/habitStore'
+import { markDoneStreak } from './streakLogic'
 
 export const EMPTY_HABIT_NAME_ERROR =
   'Habit name cannot be empty. Enter a name to add this habit.'
@@ -17,5 +18,12 @@ export function archiveHabit(habits: Habit[], target: Habit): void {
 
 export function unarchiveHabit(habits: Habit[], target: Habit): void {
   target.archived = false
+  saveHabits(habits)
+}
+
+export function markDone(habits: Habit[], target: Habit, today: string): void {
+  const updated = markDoneStreak(target, today)
+  target.streak = updated.streak
+  target.lastCompletedDate = updated.lastCompletedDate
   saveHabits(habits)
 }
