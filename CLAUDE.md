@@ -170,6 +170,11 @@ npm run dev                                       # Start dev server
 git add <files> && git commit -m "feat: ..."      # Commit after verification
 ```
 
+## Changelog Convention
+
+`CHANGELOG.md` entries are always bullet points, one change per bullet. Each bullet entry
+must be 30 words or fewer — trim to the essential change, not the implementation detail.
+
 ## Release Protocol
 
 **Prerequisites:** Must be on `develop` branch with a clean working tree.

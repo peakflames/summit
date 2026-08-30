@@ -29,6 +29,13 @@ Initial development.
   `package.json`'s `version` field at build time via a Vite `define` constant.
 - Guidance text for the empty active and empty archived views.
 - Responsive layout rules for mobile (375px) and desktop (1280px) viewport widths.
-- `localStorage` persistence layer: habits, streaks, and archived state now survive a page
-  reload under the namespaced `summit.habits` key, with load-time streak staleness
-  recalculation and no network requests issued for any habit operation.
+- `localStorage` persistence layer: habits, streaks, and archived state survive a page reload
+  under the `summit.habits` key, with load-time streak staleness recalculation and no
+  network calls.
+- Add, archive, and unarchive habits with empty/whitespace-only name rejection, plus an
+  Active/Archived filter with a visibly indicated selected state.
+- `npm run demo` starts the app pre-seeded with representative habit data for manual testing.
+- Mark a habit done for today with real streak arithmetic: increments the day after last
+  completion, resets after missed days, and stays a no-op on a repeat same-day click.
+- Streak count renders as a visually prominent badge, and done/not-done states are visually
+  distinct at a glance on each habit card.
