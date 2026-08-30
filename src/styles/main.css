@@ -8,6 +8,7 @@
   --color-accent: #3a6b5c;
   --color-done-bg: #e4f1ec;
   --color-done-text: #2c5749;
+  --color-error: #a4342b;
 }
 
 * {
@@ -64,6 +65,13 @@ body {
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.add-habit-form__error {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--color-error);
+  font-size: 0.9rem;
 }
 
 .filter-control {

@@ -31,24 +31,25 @@ value, avoiding drift between what's displayed and what's built.
 
 ---
 
-## 3. In-memory walking skeleton for habits
+## 3. In-memory walking skeleton for habits (Epic U4nHItd) — replaced by Yz4JE9Z
 
 **Decision:** In Epic U4nHItd, the habit list, add-habit input, filter control, and habit
-cards are backed by a module-scoped, in-memory `ShellHabit[]` array. There is no `localStorage`
-persistence, no streak math, and no name validation — these are intentional gaps filled by
-later epics.
+cards were backed by a module-scoped, in-memory `ShellHabit[]` array. There was no `localStorage`
+persistence, no streak math, and no name validation — intentional gaps filled by later epics.
 
-**Rationale:** The walking skeleton allows the TORs for add-habit form, filter toggle, and
+**Rationale:** The walking skeleton allowed the TORs for add-habit form, filter toggle, and
 habit card rendering to be verified independently before the backend persistence logic (streaks,
-validation, archive semantics) exists. This keeps the first epic's scope small and allows
+validation, archive semantics) existed. This kept the first epic's scope small and allowed
 verification to proceed in parallel with persistence and business logic work.
 
-**Staged Replacement Plan:**
+**Staged Replacement:**
 - **Epic 1WIBPa0 (Local Persistence):** Replaced the in-memory array with a `localStorage`-backed
   store module (`src/storage/habitStore.ts`), so state survives a page reload.
-- **Epic Yz4JE9Z (Habit Management):** Adds name validation and real archive/unarchive semantics.
-- **Epic WKhBuVK (Daily Check-In & Streaks):** Adds streak math behind the existing done-today
-  button in `HabitCard`.
+- **Epic Yz4JE9Z (Habit Management):** Decomposed the monolithic `src/App.ts` render function
+  into separate component and state modules (see Decision 7 below), added name validation, and
+  implemented real archive/unarchive semantics.
+- **Epic WKhBuVK (Daily Check-In & Streaks):** Will add streak math behind the existing
+  done-today button in `HabitCard`.
 
 ## 4. `localStorage` persistence schema and streak-recalculation ownership
 
@@ -88,7 +89,55 @@ affecting the production app. This approach is transparent to test code: all `lo
 calls work as expected in both unit tests (against the polyfill) and browser verification
 (against the real API).
 
-## 6. Known Issues and Deferred Work
+## 6. Component decomposition and state separation (Epic Yz4JE9Z)
+
+**Decision:** The monolithic `src/App.ts` render function was decomposed into dedicated
+component and state modules:
+- `src/components/AddHabitForm.ts` — form with validation and error display
+- `src/components/FilterToggle.ts` — active/archived filter toggle with aria-pressed state
+- `src/components/HabitList.ts` — filtered habit list, delegating empty state and card
+  rendering to child components
+- `src/state/habitActions.ts` — mutation layer with `addHabit()`, `archiveHabit()`,
+  `unarchiveHabit()`
+- `src/state/viewState.ts` — encapsulates filter view state and filtering logic
+
+`src/App.ts` is now a composition root that wires these modules together, calling `render()`
+on every mutation to refresh the UI.
+
+**Rationale:** Decomposition separates concerns and makes each module's contract explicit.
+Each component has clear input (props passed by App) and output (event handlers). State
+modules encapsulate domain operations (habit mutations) and UI state (view filter) separately,
+reducing coupling and making the system easier to reason about and test.
+
+## 7. Form-boundary validation (Epic Yz4JE9Z)
+
+**Decision:** Name validation happens in `src/components/AddHabitForm.ts` at the form submit
+boundary, not in the `habitActions.ts` mutation layer. Empty or whitespace-only names are
+rejected with an inline error message and a WARN-level console log. The input value is
+trimmed before being passed to the action layer.
+
+**Rationale:** Form validation is a presentation concern — errors should be shown to the user
+at the point of interaction, and only valid, pre-processed data should reach the domain
+layer. This keeps `habitActions.ts` simple (it assumes a non-empty, trimmed name) and ensures
+validation errors are caught and logged consistently at the boundary.
+
+## 8. Full re-render for implicit form clearing (Epic Yz4JE9Z)
+
+**Decision:** When a habit is successfully added, the add-habit input is cleared implicitly
+through a full `root.replaceChildren()` re-render in `App.ts`, not by clearing the DOM node
+in place. The `onAdd` callback in `AddHabitForm` triggers a full re-render, which produces a
+fresh form with an empty input.
+
+**Rationale:** Full re-render keeps the render logic centralized and predictable — every
+state change triggers a consistent re-render from the root, ensuring the UI is always in sync
+with the current state. Avoiding imperative DOM mutations reduces the surface area for bugs
+and makes the render contract obvious.
+
+## 9. Known Issues and Deferred Work
 
 - **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
   404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.
+- **Streak increment deferred to Epic WKhBuVK:** The done-today toggle in `HabitCard` currently
+  only sets/clears `lastCompletedDate` in `localStorage`. Streak increment logic is owned by
+  Epic WKhBuVK (Daily Check-In & Streaks), which will implement the business rule for when
+  streaks increment vs. reset.

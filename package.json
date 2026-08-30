@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite",
+    "demo": "vite --mode demo",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint . && prettier --check .",

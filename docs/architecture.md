@@ -49,38 +49,46 @@ N/A — there is no backend.
 ## 6. Frontend Architecture
 
 Single-page app with no router — one screen, rendered imperatively with the DOM API (no
-framework). Component hierarchy:
+framework). Component hierarchy (decomposed in Epic Yz4JE9Z):
 
 ```
-src/main.ts            — bootstrap: emits the startup console.info line, then mounts the app
-  src/App.ts            — mountApp(root): owns all shell state, renders <main> on every change
-    src/components/Footer.ts       — `Summit v<version>` footer
-    src/components/EmptyState.ts   — guidance text for the empty active/archived views
-    src/components/HabitCard.ts    — one habit's name, done-today toggle, archive toggle
+src/main.ts              — bootstrap: emits the startup console.info line, then mounts the app
+  src/App.ts               — mountApp(root) + render(root): composition root
+    renderAddHabitForm()    — src/components/AddHabitForm.ts
+    renderFilterToggle()    — src/components/FilterToggle.ts
+    renderHabitList()       — src/components/HabitList.ts
+      renderHabitCard()       — src/components/HabitCard.ts (per habit)
+      renderEmptyState()      — src/components/EmptyState.ts (when no habits in view)
+    renderFooter()         — src/components/Footer.ts
 ```
 
-`src/App.ts` module-scoped state (`habits: Habit[]`, `filter`) is now backed by a
-`localStorage`-persisted store, added in Epic 1WIBPa0:
+### State Management
 
-- `src/models/Habit.ts` — the `Habit` type: `{ name, streak, lastCompletedDate, archived }`.
-- `src/storage/habitStore.ts` — `loadHabits()` / `saveHabits()` against the namespaced
-  `summit.habits` key, holding the full dataset as a single JSON array. `loadHabits()` treats
-  `localStorage` as a system boundary and falls back to `[]` on any absent key, parse failure,
-  or shape mismatch.
-- `src/storage/streakRecalculation.ts` — `todayISO()` (local-date `YYYY-MM-DD`, not UTC) and
-  `recalculateAll()`, which resets a habit's `streak` to `0` on load if `lastCompletedDate` is
-  older than yesterday.
+State is split across three layers:
+
+- **Persistence:** `src/storage/habitStore.ts` and `src/storage/streakRecalculation.ts`
+  - `loadHabits()` / `saveHabits()` against the namespaced `summit.habits` key in
+    `localStorage`, holding the full dataset as a single JSON array
+  - `todayISO()` (local-date `YYYY-MM-DD`, not UTC) and `recalculateAll()` for load-time
+    streak staleness recalculation
+- **Domain models:** `src/models/Habit.ts` — the `Habit` type: `{ name, streak,
+  lastCompletedDate, archived }`
+- **Mutation layer:** `src/state/habitActions.ts`
+  - `addHabit(habits, name)` — inserts a new habit, calls `saveHabits()`
+  - `archiveHabit(habits, target)` / `unarchiveHabit(habits, target)` — mutate archived state,
+    call `saveHabits()`
+- **View state:** `src/state/viewState.ts`
+  - `createViewState()` — encapsulates the current filter view (Active / Archived)
+  - `filterHabits(habits, view)` — filters the habit list by view
 
 `mountApp` loads and recalculates on every mount, then persists the recalculated result back
 (so a staleness reset survives the session) before the first render. Every subsequent mutation
 (add, done-today toggle, archive/unarchive) calls `saveHabits()` synchronously before
-re-rendering, guaranteeing the write completes before the next user action is possible. The
-done-today toggle only writes `lastCompletedDate`; it does not increment `streak` — that is
-Epic WKhBuVK's responsibility. Remaining replacement work:
+re-rendering, guaranteeing the write completes before the next user action is possible.
 
-- Epic Yz4JE9Z (Habit Management) adds name validation and real archive/unarchive semantics.
-- Epic WKhBuVK (Daily Check-In & Streaks) adds streak math behind the existing done-today
-  button in `HabitCard`.
+**Ongoing work:**
+- The done-today toggle (in `HabitCard`) only writes `lastCompletedDate`; it does not
+  increment `streak` — that is Epic WKhBuVK's (Daily Check-In & Streaks) responsibility.
 
 The app version is a **compile-time constant** (`__APP_VERSION__`), injected by Vite's
 `define` in `vite.config.ts` from `package.json`'s `version` field — not imported into

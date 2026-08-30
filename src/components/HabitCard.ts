@@ -2,7 +2,8 @@ import type { Habit } from '../models/Habit'
 
 export type HabitCardHandlers = {
   onToggleDone: (habit: Habit) => void
-  onToggleArchived: (habit: Habit) => void
+  onArchive: (habit: Habit) => void
+  onUnarchive: (habit: Habit) => void
 }
 
 export function renderHabitCard(
@@ -35,8 +36,12 @@ export function renderHabitCard(
   archiveButton.type = 'button'
   archiveButton.className = 'habit-card__archive-btn'
   archiveButton.textContent = habit.archived ? 'Unarchive' : 'Archive'
+  archiveButton.setAttribute(
+    'aria-label',
+    `${habit.archived ? 'Unarchive' : 'Archive'} ${habit.name}`,
+  )
   archiveButton.addEventListener('click', () =>
-    handlers.onToggleArchived(habit),
+    habit.archived ? handlers.onUnarchive(habit) : handlers.onArchive(habit),
   )
   item.append(archiveButton)
 
