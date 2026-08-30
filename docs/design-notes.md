@@ -31,6 +31,26 @@ value, avoiding drift between what's displayed and what's built.
 
 ---
 
-## 3. Known Issues and Deferred Work
+## 3. In-memory walking skeleton for habits
 
-*(to be populated as epics are implemented and design trade-offs are discovered)*
+**Decision:** In Epic U4nHItd, the habit list, add-habit input, filter control, and habit
+cards are backed by a module-scoped, in-memory `ShellHabit[]` array. There is no `localStorage`
+persistence, no streak math, and no name validation — these are intentional gaps filled by
+later epics.
+
+**Rationale:** The walking skeleton allows the TORs for add-habit form, filter toggle, and
+habit card rendering to be verified independently before the backend persistence logic (streaks,
+validation, archive semantics) exists. This keeps the first epic's scope small and allows
+verification to proceed in parallel with persistence and business logic work.
+
+**Staged Replacement Plan:**
+- **Epic 1WIBPa0 (Local Persistence):** Replaces the in-memory array with a `localStorage`-backed
+  store module (`src/storage/habitStore.ts`), so state survives a page reload.
+- **Epic Yz4JE9Z (Habit Management):** Adds name validation and real archive/unarchive semantics.
+- **Epic WKhBuVK (Daily Check-In & Streaks):** Adds streak math behind the existing done-today
+  button in `HabitCard`.
+
+## 4. Known Issues and Deferred Work
+
+- **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
+  404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.
