@@ -1,7 +1,7 @@
 # Epic e3mj8uq: Streak Continuation Hint
 
 **Phase:** 3 — Frontend
-**Status:** Not Started
+**Status:** Implemented — 2026-08-30
 **Dependencies:** Epic WKhBuVK (Daily Check-In & Streaks — the streak count and badge this epic annotates were built there)
 
 > **Brand:** Use the project's brand guidelines skill for the hint text styling if one is configured.

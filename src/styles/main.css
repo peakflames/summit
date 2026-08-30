@@ -139,6 +139,13 @@ body {
   color: var(--color-muted);
 }
 
+.habit-card__streak-hint {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
 .habit-card__done-btn,
 .habit-card__archive-btn {
   min-height: 44px;

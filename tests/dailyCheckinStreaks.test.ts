@@ -203,4 +203,75 @@ describe('daily check-in and streaks', () => {
     expect(notDoneBtn?.classList.contains('is-done')).toBe(false)
     expect((notDoneBtn as HTMLButtonElement).disabled).toBe(false)
   })
+
+  it('displays a static streak continuation hint on each habit card (TOR-03-2OgotAa)', () => {
+    const seed: Habit[] = [
+      {
+        name: 'Drink water',
+        streak: 5,
+        lastCompletedDate: daysAgoISO(0),
+        archived: false,
+      },
+      {
+        name: 'Read 20 minutes',
+        streak: 0,
+        lastCompletedDate: null,
+        archived: false,
+      },
+    ]
+    saveHabits(seed)
+
+    const root = newRoot()
+    mountApp(root)
+
+    for (const name of ['Drink water', 'Read 20 minutes']) {
+      const card = findCard(root, name)!
+      const hint = card.querySelector('.habit-card__streak-hint')
+      expect(hint).toBeTruthy()
+      expect(hint?.textContent).toMatch(/continue|resets/i)
+      expect(card.querySelector('.habit-card__streak-value')).toBeTruthy()
+    }
+  })
+
+  it('keeps the streak hint visible and static with no user action (TOR-03-MvP98PX)', () => {
+    const seed: Habit[] = [
+      {
+        name: 'Meditate',
+        streak: 5,
+        lastCompletedDate: daysAgoISO(0),
+        archived: false,
+      },
+    ]
+    saveHabits(seed)
+
+    const root = newRoot()
+    mountApp(root)
+
+    const card = findCard(root, 'Meditate')!
+    const hint = card.querySelector('.habit-card__streak-hint')!
+    const originalText = hint.textContent
+
+    expect(hint.hasAttribute('hidden')).toBe(false)
+    expect(hint.hasAttribute('title')).toBe(false)
+
+    hint.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }))
+    hint.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }))
+    hint.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    card.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }))
+    card.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }))
+    card.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+
+    const afterHoverHint = card.querySelector('.habit-card__streak-hint')!
+    expect(afterHoverHint.textContent).toBe(originalText)
+    expect(afterHoverHint.hasAttribute('hidden')).toBe(false)
+
+    clickButton(card, '.habit-card__done-btn')
+
+    const updatedCard = findCard(root, 'Meditate')!
+    const hintAfterRerender = updatedCard.querySelector(
+      '.habit-card__streak-hint',
+    )!
+    expect(hintAfterRerender.textContent).toBe(originalText)
+    expect(hintAfterRerender.hasAttribute('hidden')).toBe(false)
+  })
 })

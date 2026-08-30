@@ -175,3 +175,20 @@ between the number and the name.
 
 - **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
   404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.
+
+## 13. Streak continuation hint placement and copy (Epic e3mj8uq)
+
+**Decision:** The continuation hint (`renderStreakHint()` in `StreakBadge.ts`) is rendered as
+a `<p class="habit-card__streak-hint">` appended as the last child of the card, and given
+`flex-basis: 100%` so it wraps onto its own full-width line beneath the existing card row
+(the card is already `display: flex; flex-wrap: wrap`). Copy is fixed and identical on every
+card: "Continue tomorrow to keep this streak — a missed day resets it to 1." The function
+takes no parameters, attaches no event listeners, and sets no `title` or `hidden` attribute,
+and is called unconditionally for every card regardless of done/active/archived state.
+
+**Rationale:** TOR-03-MvP98PX requires the hint to be always-visible static text, not a
+dismissible popup, toast, or hover-triggered overlay — so the implementation deliberately
+avoids any interactivity (no click-to-dismiss, no `title` tooltip, no conditional rendering)
+that could make the hint disappear or require an action to see. Full-width wrapping was chosen
+over squeezing the hint into the narrow `.habit-card__streak` column, keeping the sentence
+readable without disturbing the existing streak badge layout.
