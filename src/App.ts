@@ -1,12 +1,21 @@
 import { renderFooter } from './components/Footer'
 import { renderEmptyState } from './components/EmptyState'
-import { renderHabitCard, type ShellHabit } from './components/HabitCard'
+import { renderHabitCard } from './components/HabitCard'
+import type { Habit } from './models/Habit'
+import { loadHabits, saveHabits } from './storage/habitStore'
+import {
+  isDoneToday,
+  recalculateAll,
+  todayISO,
+} from './storage/streakRecalculation'
 
-// In-memory only — Epic 1WIBPa0 replaces this with a real localStorage-backed store.
-const habits: ShellHabit[] = []
+let habits: Habit[] = []
 let filter: 'active' | 'archived' = 'active'
 
 export function mountApp(root: HTMLElement): void {
+  habits = recalculateAll(loadHabits(), todayISO())
+  saveHabits(habits)
+  filter = 'active'
   render(root)
 }
 
@@ -51,7 +60,8 @@ function renderAddHabitForm(root: HTMLElement): HTMLElement {
     event.preventDefault()
     const name = input.value.trim()
     if (!name) return
-    habits.push({ name, doneToday: false, archived: false })
+    habits.push({ name, streak: 0, lastCompletedDate: null, archived: false })
+    saveHabits(habits)
     render(root)
   })
 
@@ -93,18 +103,21 @@ function renderHabitList(root: HTMLElement): HTMLElement {
     return renderEmptyState(filter)
   }
 
+  const today = todayISO()
   const list = document.createElement('ul')
   list.className = 'habit-list'
 
   for (const habit of filtered) {
     list.append(
-      renderHabitCard(habit, {
+      renderHabitCard(habit, isDoneToday(habit, today), {
         onToggleDone: (target) => {
-          target.doneToday = !target.doneToday
+          target.lastCompletedDate = isDoneToday(target, today) ? null : today
+          saveHabits(habits)
           render(root)
         },
         onToggleArchived: (target) => {
           target.archived = !target.archived
+          saveHabits(habits)
           render(root)
         },
       }),

@@ -59,13 +59,25 @@ src/main.ts            — bootstrap: emits the startup console.info line, then 
     src/components/HabitCard.ts    — one habit's name, done-today toggle, archive toggle
 ```
 
-`src/App.ts` currently owns a **module-scoped, in-memory `ShellHabit[]` array** as a walking
-skeleton — introduced in Epic U4nHItd so the add-habit input, filter, and habit-card TORs are
-verifiable before persistence and real habit-management logic exist. It is replaced piece by
-piece by later epics:
+`src/App.ts` module-scoped state (`habits: Habit[]`, `filter`) is now backed by a
+`localStorage`-persisted store, added in Epic 1WIBPa0:
 
-- Epic 1WIBPa0 (Local Persistence) replaces the in-memory array with a `localStorage`-backed
-  store module (`src/storage/habitStore.ts`), so state survives a page reload.
+- `src/models/Habit.ts` — the `Habit` type: `{ name, streak, lastCompletedDate, archived }`.
+- `src/storage/habitStore.ts` — `loadHabits()` / `saveHabits()` against the namespaced
+  `summit.habits` key, holding the full dataset as a single JSON array. `loadHabits()` treats
+  `localStorage` as a system boundary and falls back to `[]` on any absent key, parse failure,
+  or shape mismatch.
+- `src/storage/streakRecalculation.ts` — `todayISO()` (local-date `YYYY-MM-DD`, not UTC) and
+  `recalculateAll()`, which resets a habit's `streak` to `0` on load if `lastCompletedDate` is
+  older than yesterday.
+
+`mountApp` loads and recalculates on every mount, then persists the recalculated result back
+(so a staleness reset survives the session) before the first render. Every subsequent mutation
+(add, done-today toggle, archive/unarchive) calls `saveHabits()` synchronously before
+re-rendering, guaranteeing the write completes before the next user action is possible. The
+done-today toggle only writes `lastCompletedDate`; it does not increment `streak` — that is
+Epic WKhBuVK's responsibility. Remaining replacement work:
+
 - Epic Yz4JE9Z (Habit Management) adds name validation and real archive/unarchive semantics.
 - Epic WKhBuVK (Daily Check-In & Streaks) adds streak math behind the existing done-today
   button in `HabitCard`.

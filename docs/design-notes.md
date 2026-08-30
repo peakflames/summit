@@ -44,13 +44,37 @@ validation, archive semantics) exists. This keeps the first epic's scope small a
 verification to proceed in parallel with persistence and business logic work.
 
 **Staged Replacement Plan:**
-- **Epic 1WIBPa0 (Local Persistence):** Replaces the in-memory array with a `localStorage`-backed
+- **Epic 1WIBPa0 (Local Persistence):** Replaced the in-memory array with a `localStorage`-backed
   store module (`src/storage/habitStore.ts`), so state survives a page reload.
 - **Epic Yz4JE9Z (Habit Management):** Adds name validation and real archive/unarchive semantics.
 - **Epic WKhBuVK (Daily Check-In & Streaks):** Adds streak math behind the existing done-today
   button in `HabitCard`.
 
-## 4. Known Issues and Deferred Work
+## 4. `localStorage` persistence schema and streak-recalculation ownership
+
+**Decision:** The full habit dataset lives under a single namespaced key, `summit.habits`
+(`src/storage/habitStore.ts`), as a JSON array of `Habit` objects:
+`{ name, streak, lastCompletedDate, archived }`. `lastCompletedDate` is a local-time
+`YYYY-MM-DD` string or `null` — computed via `todayISO()`, which reads local calendar fields
+(`getFullYear`/`getMonth`/`getDate`), not `toISOString()`, since the latter is UTC and shifts
+the calendar date for most timezones. `loadHabits()` treats `localStorage` as a system boundary:
+it validates the parsed value is an array of well-shaped `Habit` objects and falls back to `[]`
+on any absent key, JSON parse failure, or shape mismatch, without throwing or logging.
+
+Streak logic is split across two epics by lifecycle stage: this epic
+(`src/storage/streakRecalculation.ts`) owns **load-time staleness recalculation** — if
+`lastCompletedDate` is today or yesterday the streak survives untouched, otherwise it resets to
+`0`. Epic WKhBuVK owns the **mark-done increment rule**. Concretely, in this epic the
+done-today toggle only sets/clears `lastCompletedDate` and persists it; it does not increment
+`streak`.
+
+**Rationale:** A single JSON-array key keeps the storage contract simple and matches the
+product vision's stated persistence model. Local-date strings (rather than epoch timestamps)
+make "was this done today/yesterday" comparisons trivial string equality instead of timezone
+arithmetic. Splitting staleness recalculation (load-time) from increment (mutation-time) lets
+each epic own one clear lifecycle moment without the two streak epics stepping on each other.
+
+## 5. Known Issues and Deferred Work
 
 - **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
   404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.

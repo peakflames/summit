@@ -29,3 +29,6 @@ Initial development.
   `package.json`'s `version` field at build time via a Vite `define` constant.
 - Guidance text for the empty active and empty archived views.
 - Responsive layout rules for mobile (375px) and desktop (1280px) viewport widths.
+- `localStorage` persistence layer: habits, streaks, and archived state now survive a page
+  reload under the namespaced `summit.habits` key, with load-time streak staleness
+  recalculation and no network requests issued for any habit operation.

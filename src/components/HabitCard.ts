@@ -1,16 +1,13 @@
-export type ShellHabit = {
-  name: string
-  doneToday: boolean
-  archived: boolean
-}
+import type { Habit } from '../models/Habit'
 
 export type HabitCardHandlers = {
-  onToggleDone: (habit: ShellHabit) => void
-  onToggleArchived: (habit: ShellHabit) => void
+  onToggleDone: (habit: Habit) => void
+  onToggleArchived: (habit: Habit) => void
 }
 
 export function renderHabitCard(
-  habit: ShellHabit,
+  habit: Habit,
+  doneToday: boolean,
   handlers: HabitCardHandlers,
 ): HTMLElement {
   const item = document.createElement('li')
@@ -21,10 +18,15 @@ export function renderHabitCard(
   name.textContent = habit.name
   item.append(name)
 
+  const streak = document.createElement('span')
+  streak.className = 'habit-card__streak'
+  streak.textContent = `Streak: ${habit.streak}`
+  item.append(streak)
+
   const doneButton = document.createElement('button')
   doneButton.type = 'button'
   doneButton.className = 'habit-card__done-btn'
-  doneButton.classList.toggle('is-done', habit.doneToday)
+  doneButton.classList.toggle('is-done', doneToday)
   doneButton.textContent = 'Done today'
   doneButton.addEventListener('click', () => handlers.onToggleDone(habit))
   item.append(doneButton)
