@@ -96,6 +96,12 @@ body {
   color: #fff;
 }
 
+.streak-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
 .habit-list {
   list-style: none;
   margin: 0;

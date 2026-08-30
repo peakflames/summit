@@ -18,6 +18,10 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.2.0] — UNDER DEVELOPMENT
 
 ### Added
+
+- Static hint above the Active habits list explaining that marking done tomorrow continues a
+  streak and a missed day resets it to 1.
+
 ### Changed
 ### Fixed
 

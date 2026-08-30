@@ -2,6 +2,7 @@ import { renderAddHabitForm } from './components/AddHabitForm'
 import { renderFilterToggle } from './components/FilterToggle'
 import { renderFooter } from './components/Footer'
 import { renderHabitList } from './components/HabitList'
+import { renderStreakHint } from './components/StreakHint'
 import type { Habit } from './models/Habit'
 import {
   addHabit,
@@ -52,6 +53,10 @@ function render(root: HTMLElement): void {
       render(root)
     }),
   )
+
+  if (viewState.getView() === 'active') {
+    main.append(renderStreakHint())
+  }
 
   const today = todayISO()
   main.append(
