@@ -12,19 +12,22 @@ export function renderAddHabitForm(
 
   const label = document.createElement('label')
   label.htmlFor = 'add-habit-input'
+  label.className = 'pf-label'
   label.textContent = 'Add a habit'
 
   const input = document.createElement('input')
   input.type = 'text'
   input.id = 'add-habit-input'
   input.name = 'habitName'
+  input.className = 'pf-input'
 
   const submit = document.createElement('button')
   submit.type = 'submit'
+  submit.className = 'pf-btn pf-btn--primary pf-btn--md'
   submit.textContent = 'Add'
 
   const error = document.createElement('p')
-  error.className = 'add-habit-form__error'
+  error.className = 'add-habit-form__error pf-error'
   error.setAttribute('role', 'alert')
   error.hidden = true
 

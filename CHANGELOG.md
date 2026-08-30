@@ -23,6 +23,12 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   streak and a missed day resets it to 1.
 
 ### Changed
+
+- Adopted the PeakFlames Design System: dark obsidian canvas, flame/amber accent, and the
+  Archivo/IBM Plex Sans/JetBrains Mono type ramp, replacing the prior neutral-palette styling.
+- Habit list rows now use fixed-width streak and done-button columns so cards align
+  consistently regardless of streak digit count or done/not-done button label.
+
 ### Fixed
 
 ---

@@ -13,7 +13,7 @@ export function renderHabitCard(
   handlers: HabitCardHandlers,
 ): HTMLElement {
   const item = document.createElement('li')
-  item.className = 'habit-card'
+  item.className = 'habit-card pf-card'
 
   const name = document.createElement('span')
   name.className = 'habit-card__name'
@@ -24,7 +24,8 @@ export function renderHabitCard(
 
   const doneButton = document.createElement('button')
   doneButton.type = 'button'
-  doneButton.className = 'habit-card__done-btn'
+  doneButton.className =
+    'habit-card__done-btn pf-btn pf-btn--secondary pf-btn--md'
   doneButton.classList.toggle('is-done', doneToday)
   if (doneToday) {
     doneButton.disabled = true
@@ -39,7 +40,8 @@ export function renderHabitCard(
 
   const archiveButton = document.createElement('button')
   archiveButton.type = 'button'
-  archiveButton.className = 'habit-card__archive-btn'
+  archiveButton.className =
+    'habit-card__archive-btn pf-btn pf-btn--secondary pf-btn--md'
   archiveButton.textContent = habit.archived ? 'Unarchive' : 'Archive'
   archiveButton.setAttribute(
     'aria-label',
