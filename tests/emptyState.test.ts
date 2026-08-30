@@ -5,6 +5,7 @@ describe('empty states', () => {
   let root: HTMLElement
 
   beforeEach(() => {
+    localStorage.clear()
     document.body.innerHTML = ''
     root = document.createElement('div')
     document.body.append(root)
