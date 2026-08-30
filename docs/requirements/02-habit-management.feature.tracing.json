@@ -1,0 +1,193 @@
+{
+  "feature_id": "02",
+  "feature_file": "02-habit-management.feature.md",
+  "generated": "2026-08-30",
+  "generator": "haiku-sub-agent via /peak-workflow:capture-requirements",
+  "requirements": [
+    {
+      "id": "TOR-02-AZYrPMQ",
+      "title": "The web application shall create a new active habit when the user submits a non-empty habit name",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "This requirement fulfills the zero-friction habit creation goal by enabling users to add a habit in a single interaction with just a name, no extra metadata or configuration."
+          },
+          {
+            "section": "§ 6 — MVP Scope Summary",
+            "paraphrase": "The ability to add a new habit is the primary feature in the Habit List View, forming the starting point of the add → check off → see progress loop."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 3,
+            "paraphrase": "When the user submits a valid habit name, the app immediately creates and persists the new habit record, making it visible and ready for daily tracking."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-JpqY5bM",
+      "title": "The web application shall reject an empty habit name with an inline error naming the problem and the next action, and shall log the rejection at WARN level",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 4 — Vision Statement",
+            "paraphrase": "Clear error messaging supports the frictionless user experience by guiding users toward valid input rather than silently failing or displaying cryptic messages."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 4,
+            "paraphrase": "The inline error message explicitly tells the user what went wrong and what action to take, removing ambiguity and keeping the user focused on the task."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-ndFJ4Ap",
+      "title": "The web application shall treat a whitespace-only habit name the same as an empty habit name",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Input validation that rejects whitespace-only names upholds the principle that every habit must have a meaningful, displayable name for clarity."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 4,
+            "paraphrase": "The validation ensures that the user cannot inadvertently create a habit with no visible name by submitting spaces, maintaining data quality and user clarity."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-K6frDEV",
+      "title": "The web application shall trim leading and trailing whitespace from a submitted habit name before displaying it",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "Automatic whitespace trimming ensures clean, professional-looking habit names in the UI without requiring users to be mindful of accidental spaces around their input."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 5,
+            "paraphrase": "After accepting a habit, the app normalizes the name by trimming whitespace, so the displayed habit card shows the user's intent without unintended spacing artifacts."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-KlyaxwN",
+      "title": "The web application shall move a habit out of the active list when the user archives it",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Archiving fulfills the reduce-clutter goal by allowing users to hide habits they're no longer tracking while preserving their data and historical progress."
+          },
+          {
+            "section": "§ 6 — MVP Scope Summary",
+            "paraphrase": "Archiving enables users to declutter the active list without losing habit data, addressing the current pain point that habits clutter the view when they're no longer relevant."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S4",
+            "step": 3,
+            "paraphrase": "When the user clicks Archive, the app removes the habit from the active view immediately, reducing cognitive load in the daily check-in experience."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-Mg4RM5f",
+      "title": "The web application shall restore a habit to the active list when the user unarchives it",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Unarchiving supports the reduce-clutter goal by enabling users to revive archived habits at any point, making archiving a reversible action rather than permanent deletion."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S5",
+            "step": 4,
+            "paraphrase": "When the user unarchives a habit, the app restores it to the active list, reappearing with its prior streak state intact for immediate resumption of tracking."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-0pLwEQO",
+      "title": "The web application shall show the Active habits view by default on load",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 5 — Goals & Success Criteria",
+            "paraphrase": "Defaulting to the Active view supports the fast daily check-in goal by ensuring users immediately see the habits they're actively tracking without extra navigation."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S2",
+            "step": 1,
+            "paraphrase": "On app load and throughout the session, the Active view is the default, aligning with the primary user intent of checking in on daily habits."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-HJLw37V",
+      "title": "The web application shall visibly indicate which filter view is currently selected",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 9 — Design Direction",
+            "paraphrase": "Clear visual indication of the selected filter view supports the minimalist design by making the current state obvious without requiring extra explanation or navigation."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S5",
+            "step": 1,
+            "paraphrase": "Visual indication of which filter is selected helps users navigate between Active and Archived views with confidence, reducing confusion about which habits they're currently viewing."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-02-oIU87Ri",
+      "title": "The web application shall exclude active habits from the Archived view",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§ 6 — MVP Scope Summary",
+            "paraphrase": "The Archived Habits View is defined as a distinct filter over the same underlying data, implying strict separation from the Active view's contents."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S5",
+            "step": 1,
+            "paraphrase": "When the user switches to the Archived filter, the resulting view must show only archived habits, so the user can trust the filter is doing real work and not just relabeling the same list."
+          },
+          {
+            "scenario": "S5",
+            "step": 2,
+            "paraphrase": "The view switching to show archived habits implies those habits are drawn from a set that explicitly excludes anything still active."
+          }
+        ]
+      }
+    }
+  ],
+  "coverage_gaps": []
+}
