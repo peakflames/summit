@@ -20,11 +20,3 @@ export function renderStreakBadge(habit: Habit): HTMLElement {
 
   return wrapper
 }
-
-export function renderStreakHint(): HTMLElement {
-  const hint = document.createElement('p')
-  hint.className = 'habit-card__streak-hint'
-  hint.textContent =
-    'Continue tomorrow to keep this streak — a missed day resets it to 1.'
-  return hint
-}

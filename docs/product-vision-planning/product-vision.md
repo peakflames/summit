@@ -62,8 +62,9 @@ it done, and watch their streak grow, all stored privately in their own browser.
 **Habit List View**
 - Add a new habit (name only, no extra metadata required)
 - Display all active habits with: name, current streak count, done/not-done state for today
-- Streak continuation hint: a short static line near the streak count explains how to keep the
-  streak going (e.g., "Mark done tomorrow to continue — a missed day resets to 1")
+- Streak continuation hint: a single short static line, shown once in a shared location for
+  the whole habit list (not repeated per card), explains how to keep a streak going (e.g.,
+  "Mark done tomorrow to continue a streak — a missed day resets it to 1")
 - Mark a habit done for today (toggle)
 - Archive a habit (removes it from the active list)
 
@@ -131,8 +132,10 @@ and no loading spinner, because everything was persisted locally.
   blank screen.
 - Neutral, calm color palette — this is a personal productivity tool, not a gamified/social
   app; avoid aggressive notification-style UI patterns.
-- The streak-continuation hint is static, secondary-styled text always rendered on the card —
-  not a toast/popup/notification — consistent with avoiding aggressive notification-style UI.
+- The streak-continuation hint is static, secondary-styled text always rendered once in a
+  shared location for the habit list (not per card) — not a toast/popup/notification —
+  consistent with avoiding aggressive notification-style UI and avoiding repeated, redundant
+  text across every card.
 - Fully responsive — usable on both desktop and mobile browser widths, since a habit check-in
   often happens on a phone.
 

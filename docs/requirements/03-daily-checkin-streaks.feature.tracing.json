@@ -159,23 +159,23 @@
     },
     {
       "id": "TOR-03-2OgotAa",
-      "title": "The web application shall display a static hint near each habit's streak count explaining that marking done tomorrow continues the streak and a missed day resets it to 1",
+      "title": "The web application shall display a single static hint in a shared location for the habit list explaining that marking done tomorrow continues a streak and a missed day resets it to 1",
       "traces_to": {
         "vision": [
           {
             "section": "§ 6 — MVP Scope Summary",
-            "paraphrase": "The MVP scope explicitly requires a streak continuation hint displayed as a short static line near the streak count to explain how to maintain the streak and what triggers a reset to 1."
+            "paraphrase": "The MVP scope requires a single streak continuation hint, shown once in a shared location for the whole habit list rather than repeated per card, explaining how to maintain a streak and what triggers a reset to 1."
           },
           {
             "section": "§ 9 — Design Direction",
-            "paraphrase": "The design direction mandates the streak-continuation hint as persistent static text on the habit card, providing continuous guidance about streak mechanics without intrusive notifications or popups."
+            "paraphrase": "The design direction mandates the streak-continuation hint as persistent static text rendered once in a shared location for the habit list, providing guidance about streak mechanics without repeating identical text on every card."
           }
         ],
         "conops": [
           {
             "scenario": "S2",
             "step": 7,
-            "paraphrase": "The static streak-continuation hint remains visible next to the streak count during daily check-in, ensuring users understand the mechanics for continuing their streak and the consequences of missed days."
+            "paraphrase": "The static streak-continuation hint, shown once in its shared location, remains visible during daily check-in, ensuring users understand the mechanics for continuing a streak and the consequences of missed days."
           }
         ]
       }
@@ -187,14 +187,14 @@
         "vision": [
           {
             "section": "§ 9 — Design Direction",
-            "paraphrase": "The design explicitly commits to always-visible static hint text on the habit card, rejecting dismissible popups, toasts, and hover overlays to maintain a calm, minimalist interface consistent with the product's philosophy."
+            "paraphrase": "The design explicitly commits to always-visible static hint text rendered once in a shared location, rejecting dismissible popups, toasts, and hover overlays to maintain a calm, minimalist interface consistent with the product's philosophy."
           }
         ],
         "conops": [
           {
             "scenario": "S2",
             "step": 7,
-            "paraphrase": "The hint text must remain constantly present in the card's markup without disappearing based on hover, click, or automatic dismissal, ensuring users can always reference the streak continuation rules."
+            "paraphrase": "The hint text must remain constantly present in the page's markup without disappearing based on hover, click, or automatic dismissal, ensuring users can always reference the streak continuation rules."
           }
         ]
       }

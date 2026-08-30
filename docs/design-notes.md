@@ -178,17 +178,21 @@ between the number and the name.
 
 ## 13. Streak continuation hint placement and copy (Epic e3mj8uq)
 
-**Decision:** The continuation hint (`renderStreakHint()` in `StreakBadge.ts`) is rendered as
-a `<p class="habit-card__streak-hint">` appended as the last child of the card, and given
-`flex-basis: 100%` so it wraps onto its own full-width line beneath the existing card row
-(the card is already `display: flex; flex-wrap: wrap`). Copy is fixed and identical on every
-card: "Continue tomorrow to keep this streak — a missed day resets it to 1." The function
-takes no parameters, attaches no event listeners, and sets no `title` or `hidden` attribute,
-and is called unconditionally for every card regardless of done/active/archived state.
+**Decision:** The continuation hint (`renderStreakHint()` in `src/components/StreakHint.ts`)
+is rendered exactly once per page as a `<p class="streak-hint">`, placed in `App.ts` between
+the Active/Archived filter toggle and the habit list, and only when the Active view is
+selected. Copy is fixed: "Mark done tomorrow to continue a streak — a missed day resets it to
+1." The function takes no parameters, attaches no event listeners, and sets no `title` or
+`hidden` attribute.
 
-**Rationale:** TOR-03-MvP98PX requires the hint to be always-visible static text, not a
-dismissible popup, toast, or hover-triggered overlay — so the implementation deliberately
-avoids any interactivity (no click-to-dismiss, no `title` tooltip, no conditional rendering)
-that could make the hint disappear or require an action to see. Full-width wrapping was chosen
-over squeezing the hint into the narrow `.habit-card__streak` column, keeping the sentence
-readable without disturbing the existing streak badge layout.
+**Rationale:** The first implementation of this epic rendered the identical hint sentence
+inside every habit card (`.habit-card__streak-hint`), satisfying TOR-03-2OgotAa and
+TOR-03-MvP98PX as originally written but repeating the same text once per habit — reviewed
+post-implementation as redundant and noisy for a list of any size. The product vision and
+ConOps were revised (2026-08-30) to specify a single shared hint location for the habit list
+instead of per-card text, and both TORs were revised to match (same TOR IDs, updated
+Given/When/Then) rather than adding new IDs, since this is a scenario correction, not a new
+requirement. The hint is scoped to the Active view only, mirroring the product vision's
+placement of the hint under "Habit List View" (not "Archived Habits View") in its MVP Scope
+Summary. TOR-03-MvP98PX's no-popup/no-dismissal constraint is preserved: the hint still
+attaches no listeners and sets no `title`/`hidden` attribute, regardless of location.

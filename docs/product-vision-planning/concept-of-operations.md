@@ -93,8 +93,9 @@ with zero setup steps beyond typing a name.
 4. The app sets `lastCompletedDate` to today's date and marks the card as "done today."
 5. The updated habit record is written to `localStorage`.
 6. The card visually updates (e.g., checked state, streak number updates) immediately.
-7. The static streak-continuation hint next to the streak count remains visible, reminding
-   the user that marking done again tomorrow continues the streak and a missed day resets it.
+7. The static streak-continuation hint, shown once in its shared location for the habit list,
+   remains visible, reminding the user that marking done again tomorrow continues a streak and
+   a missed day resets it.
 
 **Outcome:** The habit shows as completed for today, and the streak count reflects the user's
 updated consecutive-day count.
@@ -202,7 +203,7 @@ browser tab.
 | Add habit | Text input + submit creates a new habit with streak 0 |
 | Mark done today | Single-click toggle increments/maintains streak |
 | Streak display | Shows current consecutive-day count per habit |
-| Streak hint | Static text near the streak count explaining the continue/reset rule |
+| Streak hint | Static text, shown once in a shared location for the list, explaining the continue/reset rule |
 | Archive habit | Removes habit from active view, preserves data |
 
 **Archived Habits View**
@@ -243,4 +244,4 @@ browser tab.
 | Done today | The state indicating a habit has been marked complete for the current calendar day |
 | `lastCompletedDate` | Internal data field recording the most recent date a habit was marked done, used to calculate streak continuity |
 | localStorage | Browser-provided persistent key-value storage scoped to the page's origin, used as this app's sole data store |
-| Streak hint | The static explanatory text shown next to a habit's streak count describing how to continue it or that it will reset |
+| Streak hint | The static explanatory text, shown once in a shared location for the habit list, describing how to continue a streak or that it will reset |

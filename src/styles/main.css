@@ -96,6 +96,12 @@ body {
   color: #fff;
 }
 
+.streak-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
 .habit-list {
   list-style: none;
   margin: 0;
@@ -135,13 +141,6 @@ body {
 }
 
 .habit-card__streak-label {
-  font-size: 0.75rem;
-  color: var(--color-muted);
-}
-
-.habit-card__streak-hint {
-  flex-basis: 100%;
-  margin: 0;
   font-size: 0.75rem;
   color: var(--color-muted);
 }

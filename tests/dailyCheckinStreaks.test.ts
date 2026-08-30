@@ -204,7 +204,7 @@ describe('daily check-in and streaks', () => {
     expect((notDoneBtn as HTMLButtonElement).disabled).toBe(false)
   })
 
-  it('displays a static streak continuation hint on each habit card (TOR-03-2OgotAa)', () => {
+  it('displays a single static streak continuation hint shared across the habit list (TOR-03-2OgotAa)', () => {
     const seed: Habit[] = [
       {
         name: 'Drink water',
@@ -224,12 +224,15 @@ describe('daily check-in and streaks', () => {
     const root = newRoot()
     mountApp(root)
 
+    const hints = root.querySelectorAll('.streak-hint')
+    expect(hints.length).toBe(1)
+    expect(hints[0].textContent).toMatch(/continue|resets/i)
+    expect(root.querySelector('.habit-card__streak-hint')).toBeNull()
+
     for (const name of ['Drink water', 'Read 20 minutes']) {
       const card = findCard(root, name)!
-      const hint = card.querySelector('.habit-card__streak-hint')
-      expect(hint).toBeTruthy()
-      expect(hint?.textContent).toMatch(/continue|resets/i)
       expect(card.querySelector('.habit-card__streak-value')).toBeTruthy()
+      expect(card.contains(hints[0])).toBe(false)
     }
   })
 
@@ -247,8 +250,8 @@ describe('daily check-in and streaks', () => {
     const root = newRoot()
     mountApp(root)
 
+    const hint = root.querySelector('.streak-hint')!
     const card = findCard(root, 'Meditate')!
-    const hint = card.querySelector('.habit-card__streak-hint')!
     const originalText = hint.textContent
 
     expect(hint.hasAttribute('hidden')).toBe(false)
@@ -261,16 +264,13 @@ describe('daily check-in and streaks', () => {
     card.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }))
     card.dispatchEvent(new MouseEvent('click', { bubbles: true }))
 
-    const afterHoverHint = card.querySelector('.habit-card__streak-hint')!
+    const afterHoverHint = root.querySelector('.streak-hint')!
     expect(afterHoverHint.textContent).toBe(originalText)
     expect(afterHoverHint.hasAttribute('hidden')).toBe(false)
 
     clickButton(card, '.habit-card__done-btn')
 
-    const updatedCard = findCard(root, 'Meditate')!
-    const hintAfterRerender = updatedCard.querySelector(
-      '.habit-card__streak-hint',
-    )!
+    const hintAfterRerender = root.querySelector('.streak-hint')!
     expect(hintAfterRerender.textContent).toBe(originalText)
     expect(hintAfterRerender.hasAttribute('hidden')).toBe(false)
   })

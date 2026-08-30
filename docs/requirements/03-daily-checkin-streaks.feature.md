@@ -53,17 +53,17 @@ Scenario: [TOR-03-b2dynoV] The web application shall render a visually distinct 
 
 
 # --------------------------------------------------------------------------------------------------
-# Streak Continuation Hint (added 2026-08-30)
+# Streak Continuation Hint (added 2026-08-30, revised 2026-08-30 to a single shared location)
 # --------------------------------------------------------------------------------------------------
 
-Scenario: [TOR-03-2OgotAa] The web application shall display a static hint near each habit's streak count explaining that marking done tomorrow continues the streak and a missed day resets it to 1
-    Given a habit card showing a streak count
+Scenario: [TOR-03-2OgotAa] The web application shall display a single static hint in a shared location for the habit list explaining that marking done tomorrow continues a streak and a missed day resets it to 1
+    Given the Active habits view with one or more habit cards showing streak counts
     When the user views the Active habits view
-    Then the card should display hint text near the streak count matching /continue|resets/i
+    Then the view should display exactly one hint element, not repeated per habit card, with text matching /continue|resets/i
     And no additional user interaction (click, hover, or tap) should be required to see the hint text
 
 Scenario: [TOR-03-MvP98PX] The web application shall render the streak hint as always-visible static text rather than a dismissible popup, toast, or hover-triggered overlay
-    Given a habit card with the streak hint displayed
-    When the user takes no action on the card
-    Then the hint text should remain present and visible in the card's markup
+    Given the streak hint displayed in its shared location
+    When the user takes no action on the page
+    Then the hint text should remain present and visible in the page's markup
     And the hint should not appear or disappear based on any hover, click, or timed dismissal behavior

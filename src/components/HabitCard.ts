@@ -1,5 +1,5 @@
 import type { Habit } from '../models/Habit'
-import { renderStreakBadge, renderStreakHint } from './StreakBadge'
+import { renderStreakBadge } from './StreakBadge'
 
 export type HabitCardHandlers = {
   onMarkDone: (habit: Habit) => void
@@ -49,8 +49,6 @@ export function renderHabitCard(
     habit.archived ? handlers.onUnarchive(habit) : handlers.onArchive(habit),
   )
   item.append(archiveButton)
-
-  item.append(renderStreakHint())
 
   return item
 }

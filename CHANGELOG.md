@@ -19,8 +19,8 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Static hint on every habit card explaining that marking done tomorrow continues the streak
-  and a missed day resets it to 1.
+- Static hint above the Active habits list explaining that marking done tomorrow continues a
+  streak and a missed day resets it to 1.
 
 ### Changed
 ### Fixed
