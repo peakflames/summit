@@ -23,6 +23,22 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.3.1] — 30-Aug-2026
+
+### Added
+
+- App favicon, sourced from the PeakFlames logo at peakflames.org.
+
+### Changed
+
+- README: added a "Built with Peak-Workflow" section highlighting Summit as the
+  peak-workflow reference example, with a Claude Code usage snapshot.
+- README: documented `npm run demo` for exploring the app pre-populated with sample habits.
+
+### Fixed
+
+---
+
 ## [0.3.0] — 30-Aug-2026
 
 ### Added

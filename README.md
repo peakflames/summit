@@ -20,6 +20,12 @@ Open the printed local URL in your browser. Add a habit, mark it done, and watch
 count update. All data persists to your browser's `localStorage` — no backend or account
 required.
 
+To explore the app pre-populated with sample habits instead of starting from empty, run:
+
+```bash
+npm run demo
+```
+
 ## Documentation
 
 - [Architecture](docs/architecture.md)
