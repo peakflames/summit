@@ -49,13 +49,14 @@ N/A — there is no backend.
 ## 6. Frontend Architecture
 
 Single-page app with no router — one screen, rendered imperatively with the DOM API (no
-framework). Component hierarchy (decomposed across Epics Yz4JE9Z and WKhBuVK):
+framework). Component hierarchy (decomposed across Epics Yz4JE9Z, WKhBuVK, and e3mj8uq):
 
 ```
 src/main.ts              — bootstrap: emits the startup console.info line, then mounts the app
   src/App.ts               — mountApp(root) + render(root): composition root
     renderAddHabitForm()    — src/components/AddHabitForm.ts
     renderFilterToggle()    — src/components/FilterToggle.ts
+    renderStreakHint()      — src/components/StreakHint.ts (shown only in Active view)
     renderHabitList()       — src/components/HabitList.ts
       renderHabitCard()       — src/components/HabitCard.ts (per habit)
         renderStreakBadge()     — src/components/StreakBadge.ts (displays streak count)
