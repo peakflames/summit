@@ -161,17 +161,112 @@ and disables, there is no doubt that clicking again does nothing.
 ## 11. Streak badge visual prominence (Epic WKhBuVK)
 
 **Decision:** The streak count is rendered in a dedicated `renderStreakBadge()` component
-(`src/components/StreakBadge.ts`) that displays the value at 1.5rem/700 weight in the accent
-color, distinctly larger and bolder than the habit name (1rem/500). The badge includes an
-`aria-label` that reads aloud as a full sentence ("Read 20 minutes, streak 5") for
-accessibility.
+(`src/components/StreakBadge.ts`) that displays the value distinctly larger and bolder than
+the habit name. As of Epic R5e7z3Y (see §14), `.habit-card__streak-value` renders at
+`--text-h2` (1.75rem) / `--weight-black` (800) in `--text-accent` (amber), against the habit
+name's `--weight-medium` (500) at body size — still the heaviest, largest element on the
+card, now on the PeakFlames brand type ramp. The badge includes an `aria-label` that reads
+aloud as a full sentence ("Read 20 minutes, streak 5") for accessibility.
 
 **Rationale:** Visual separation makes the streak the most prominent element on the card,
 drawing the eye and reinforcing the streak mechanic. The semantic `aria-label` ensures
 screen-reader users receive the same information without needing to infer the relationship
 between the number and the name.
 
+**Superseded by Epic R5e7z3Y (§14):** the accent color driving this prominence is now amber
+(`--text-accent`), not the flame primary — see §14 for why.
+
 ## 12. Known Issues and Deferred Work
 
 - **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
   404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.
+
+## 13. Streak continuation hint placement and copy (Epic e3mj8uq)
+
+**Decision:** The continuation hint (`renderStreakHint()` in `src/components/StreakHint.ts`)
+is rendered exactly once per page as a `<p class="streak-hint">`, placed in `App.ts` between
+the Active/Archived filter toggle and the habit list, and only when the Active view is
+selected. Copy is fixed: "Mark done tomorrow to continue a streak — a missed day resets it to
+1." The function takes no parameters, attaches no event listeners, and sets no `title` or
+`hidden` attribute.
+
+**Rationale:** The first implementation of this epic rendered the identical hint sentence
+inside every habit card (`.habit-card__streak-hint`), satisfying TOR-03-2OgotAa and
+TOR-03-MvP98PX as originally written but repeating the same text once per habit — reviewed
+post-implementation as redundant and noisy for a list of any size. The product vision and
+ConOps were revised (2026-08-30) to specify a single shared hint location for the habit list
+instead of per-card text, and both TORs were revised to match (same TOR IDs, updated
+Given/When/Then) rather than adding new IDs, since this is a scenario correction, not a new
+requirement. The hint is scoped to the Active view only, mirroring the product vision's
+placement of the hint under "Habit List View" (not "Archived Habits View") in its MVP Scope
+Summary. TOR-03-MvP98PX's no-popup/no-dismissal constraint is preserved: the hint still
+attaches no listeners and sets no `title`/`hidden` attribute, regardless of location.
+
+## 14. PeakFlames Design System adoption: vendored tokens, additive classes, amber streak (Epic R5e7z3Y)
+
+**Decision:** Summit's visual language is now the PeakFlames Design System. The token CSS
+(`styles.css` plus 10 `tokens/*.css` files: fonts, colors, typography, spacing, radius,
+elevation, motion, semantic, base, components) is vendored byte-identical into
+`src/styles/peakflames/` from the design project (`11ea476f-926c-40ea-8d34-91522c12d907`),
+excluded from `npm run lint`'s Prettier check via `.prettierignore` so re-syncs stay a clean
+diff against upstream. `src/styles/main.css` imports it as line 1, then keeps only
+Summit-specific layout and the state overrides the vendored `.pf-*` classes can't express.
+Every touched component (`AddHabitForm`, `FilterToggle`, `HabitCard`, `StreakBadge`,
+`StreakHint`, `EmptyState`) adds `.pf-*` classes **alongside** its existing class names — no
+class was renamed or removed, no DOM element, attribute, or copy changed.
+
+**Rationale — vendor, don't eyeball:** Hand-approximating the brand palette risks drift from
+the source of truth and forfeits future re-syncs. Pulling the real token files means Summit's
+colors, spacing, and type scale are byte-for-byte the design system's, and a future brand
+update is a re-vendor, not a redesign.
+
+**Rationale — additive, not a rename:** Four of the project's seven test files mount the real
+app and assert on `.habit-card*` class names and exact button `textContent` (see
+`tests/persistence.test.ts`, `tests/dailyCheckinStreaks.test.ts`, `tests/habitManagement.test.ts`,
+`tests/emptyState.test.ts`). Renaming classes to a pure `.pf-*` vocabulary would have required
+touching those tests, undermining them as an independent regression signal for a change that
+is supposed to be purely visual. Keeping both class names side by side lets the vendored CSS
+drive appearance while the original selectors keep meaning what they always meant to the test
+suite.
+
+**Rationale — amber, not flame, for the streak value:** The design system's "one hot element
+per view" rule (`TOR-05-G4eM1DW`) reserves the flame accent for exactly one primary control.
+The add-habit submit button is that control — it's the one element guaranteed present
+regardless of how many habits exist, unlike a per-habit done button, which would put one
+flame-accented button per undone habit on screen simultaneously (confirmed during browser
+verification: with two undone habits, the Add button plus two Done buttons all rendered
+flame, i.e. three "hot" elements on one view). Habit-card Done buttons therefore use
+`pf-btn--secondary` as their base treatment instead of the `pf-btn--primary` the epic's
+original Key Components table specified — a spec deviation recorded in the epic's session
+handoff. `--text-accent` (amber) carries the streak value's visual weight instead, keeping it
+the card's most prominent element (§11) without competing for the page's one flame accent.
+
+**Rationale — fixed-width streak and done-button columns:** The habit list originally used
+unconstrained flexbox: `.habit-card__name` grew to fill remaining space, and
+`.habit-card__streak` / `.habit-card__done-btn` sized to their own content. Since digit count
+(`"5"` vs `"30"`) and button label (`"Done today"` vs `"Done ✓"`) vary card to card, this let
+the streak and button columns start at a different x-position on every row — reported during
+manual review as misaligned. `.habit-card__streak` and `.habit-card__done-btn` now carry fixed
+`min-width`s so every card's columns line up regardless of content.
+
+At narrow widths (`max-width: 480px`), the fix goes further: `.habit-card__name` is forced onto
+its own full-width row (`flex-basis: 100%`) so the habit name never competes for row space, and
+the streak/done/archive trio is deliberately kept together on the row beneath it — tightened
+`min-width`s and padding on `.habit-card__streak`, `.habit-card__done-btn`, and
+`.habit-card__archive-btn` at that breakpoint (reviewed against both `"Done today"`/`"Archive"`
+and the longer `"Unarchive"` label) ensure that trio fits on one line at the 375px baseline
+instead of any one of the three wrapping independently, which — before this pass — made every
+card break at a different point depending on habit-name length. `.habit-card` also gets
+`justify-content: space-between` at that breakpoint: since the name now owns the only other
+line, the trio is the sole content on its line, so `space-between` spreads it across the full
+card width (streak left, done centered, archive flush right) instead of leaving it clustered
+at the left edge with dead space after Archive.
+
+**Rationale — add-habit input/button share one row:** `.pf-input` sets `width: 100%`, which
+becomes the flex item's used `flex-basis` (per the flexbox spec, an explicit non-`auto` `width`
+wins over a computed `flex-basis: auto`). That made the add-habit input claim the entire row,
+pushing the submit button onto its own line, left-aligned — a regression introduced by adding
+`.pf-input` additively, not present before this epic. `.add-habit-form input` now sets
+`flex: 1 1 0%; min-width: 0`, overriding the basis so the input fills only the space left over
+after the button's own content width — keeping both on one row with the button flush right,
+at every viewport width.

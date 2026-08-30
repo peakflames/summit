@@ -24,6 +24,7 @@ reference example for the `peak-workflow` plugin.
 | Build tool / dev server | Vite | Local dev server, bundling, build-time constants |
 | Package manager | npm | Dependency management |
 | Persistence | `localStorage` | Client-side storage of habits and completion state |
+| Styling | PeakFlames Design System (vendored token CSS + `.pf-*` classes) | Brand canvas, type ramp, and component visual treatment |
 
 ---
 
@@ -49,13 +50,24 @@ N/A — there is no backend.
 ## 6. Frontend Architecture
 
 Single-page app with no router — one screen, rendered imperatively with the DOM API (no
-framework). Component hierarchy (decomposed across Epics Yz4JE9Z and WKhBuVK):
+framework). Component hierarchy (decomposed across Epics Yz4JE9Z, WKhBuVK, and e3mj8uq):
+
+### Stylesheets
+
+`src/styles/peakflames/` holds the PeakFlames Design System's token CSS, vendored
+byte-identical from the design project (`styles.css` plus 10 `tokens/*.css` files — see
+design-notes.md §14). `src/styles/main.css` imports it as its first line, then layers
+Summit-specific layout (flex containers, gaps, list-row padding) and a small number of state
+overrides the vendored `.pf-*` classes can't express (the amber, not flame, streak value; a
+desaturated done-button treatment). Components add `.pf-*` classes alongside their existing
+class names — see Key Components in `docs/implementation-plan/phase-3-frontend/epic-R5e7z3Y-*`.
 
 ```
 src/main.ts              — bootstrap: emits the startup console.info line, then mounts the app
   src/App.ts               — mountApp(root) + render(root): composition root
     renderAddHabitForm()    — src/components/AddHabitForm.ts
     renderFilterToggle()    — src/components/FilterToggle.ts
+    renderStreakHint()      — src/components/StreakHint.ts (shown only in Active view)
     renderHabitList()       — src/components/HabitList.ts
       renderHabitCard()       — src/components/HabitCard.ts (per habit)
         renderStreakBadge()     — src/components/StreakBadge.ts (displays streak count)

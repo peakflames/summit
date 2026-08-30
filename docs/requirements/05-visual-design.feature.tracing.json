@@ -1,0 +1,105 @@
+{
+  "feature_id": "05",
+  "feature_file": "05-visual-design.feature.md",
+  "generated": "2026-08-30",
+  "generator": "haiku-sub-agent via /peak-workflow:capture-requirements",
+  "requirements": [
+    {
+      "id": "TOR-05-N8OUVWo",
+      "title": "The web application shall render its interface on a dark, obsidian-toned canvas using the PeakFlames Design System's brand type ramp",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§9 — Design Direction",
+            "paraphrase": "Summit adopts the PeakFlames Design System as its visual language, establishing a dark obsidian canvas with Archivo typeface for headings and IBM Plex Sans for body text to create a cohesive, considered product identity."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 7,
+            "paraphrase": "When the new habit appears in the list after creation, users see it rendered in the dark obsidian canvas with brand typography, establishing visual confidence in the app as a finished product."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-05-G4eM1DW",
+      "title": "The web application shall render exactly one flame-accented \"hot\" element per view, reserved for the primary action",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§9 — Design Direction",
+            "paraphrase": "The PeakFlames Design System's 'one hot element per view' rule ensures only the primary action carries the flame accent, maintaining visual calm and preventing aggressive, distracting UI patterns even with a dark, high-contrast palette."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 3,
+            "paraphrase": "When the user clicks the Add button to submit a new habit, that button is the single flame-accented primary action on the view, guiding the user's interaction."
+          },
+          {
+            "scenario": "S2",
+            "step": 2,
+            "paraphrase": "When the user clicks the done-today control on a habit card, that control becomes the primary action with flame-accent treatment, emphasizing the moment of daily completion."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-05-3wxnhPe",
+      "title": "The web application shall display a visible focus ring on any interactive control when it receives keyboard focus",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§9 — Design Direction",
+            "paraphrase": "Clear visual signaling of interactive elements ensures users can always tell what is interactive at a glance; keyboard focus rings extend this clarity to keyboard-only navigation, supporting full accessibility."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S1",
+            "step": 2,
+            "paraphrase": "When a user tabs into the habit name input field, a visible focus ring indicates the control is ready for keyboard input, removing ambiguity about where focus currently is."
+          },
+          {
+            "scenario": "S2",
+            "step": 2,
+            "paraphrase": "When a user tabs through habit controls to mark one done, the focused control displays a visible ring, allowing keyboard navigation without requiring a mouse or touch."
+          },
+          {
+            "scenario": "S5",
+            "step": 1,
+            "paraphrase": "When a user tabs to the Active/Archived filter controls, each receives a visible focus ring when focused, enabling keyboard-driven filter switching."
+          }
+        ]
+      }
+    },
+    {
+      "id": "TOR-05-YsmGKT9",
+      "title": "The web application shall indicate the currently selected Active/Archived filter using the PeakFlames Design System's ember gradient treatment",
+      "traces_to": {
+        "vision": [
+          {
+            "section": "§9 — Design Direction",
+            "paraphrase": "The design system's ember gradient provides a consistent, branded visual indicator for selected state, ensuring users can instantly see which view they are currently in without confusion."
+          }
+        ],
+        "conops": [
+          {
+            "scenario": "S5",
+            "step": 1,
+            "paraphrase": "When a user clicks the Archived filter control, the ember gradient treatment visually marks that control as selected, clearly indicating the view has switched from Active to Archived habits."
+          },
+          {
+            "scenario": "S5",
+            "step": 2,
+            "paraphrase": "While viewing archived habits, the Archived filter button displays the ember gradient selection treatment, making it visually obvious which filter is currently active."
+          }
+        ]
+      }
+    }
+  ],
+  "coverage_gaps": []
+}

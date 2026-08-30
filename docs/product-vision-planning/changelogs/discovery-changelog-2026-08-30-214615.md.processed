@@ -1,0 +1,32 @@
+# Discovery Changelog
+
+**Date:** 2026-08-30
+**Mode:** Brownfield (post-MVP ideation)
+**Previous Version:** 1.1
+
+## What Changed
+
+| Document | Section | Change Type | Summary |
+|----------|---------|-------------|---------|
+| product-vision.md | 9. Design Direction | Modified | Replaced the neutral/calm color palette bullet with adoption of the PeakFlames Design System (dark-first obsidian canvas, flame accent, Archivo/IBM Plex Sans/JetBrains Mono); bridged "avoid aggressive notification-style UI" to the system's "one hot element per view" rule. |
+| product-vision.md | 11. Backlog / Future Vision | Modified | Removed "Dark mode / theme toggle" (dark is now the default, not a future feature); replaced with "Light theme toggle" since the system ships a `[data-theme="light"]` scope. |
+
+## New Capabilities Identified
+
+- Adoption of the PeakFlames Design System as Summit's visual language — dark-first theming,
+  brand type ramp, flame/ember accent treatment, and the "one hot element per view" restraint
+  rule, applied across the existing habit list, filter, and empty-state UI without any DOM or
+  copy changes.
+
+## Priority Signal
+
+This is purely a visual restyle of existing, already-implemented behavior — no new user-facing
+functionality. Priority is to make Summit visibly a PeakFlames product while preserving every
+existing behavioral TOR (streak prominence, done-state distinction, filter selection,
+responsive layout at 375px/1280px) exactly as specified.
+
+## Deferred Items
+
+- Light theme toggle UI (backlog item, not part of this cycle — dark ships as the sole default).
+- The design system's React components, UI kits, guidelines, and brand assets (favicon) —
+  vanilla-TS Summit only vendors the token CSS layer.

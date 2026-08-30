@@ -14,7 +14,7 @@ export function renderStreakBadge(habit: Habit): HTMLElement {
   wrapper.append(value)
 
   const label = document.createElement('span')
-  label.className = 'habit-card__streak-label'
+  label.className = 'habit-card__streak-label pf-label'
   label.textContent = 'day streak'
   wrapper.append(label)
 

@@ -1,0 +1,35 @@
+# Discovery Changelog
+
+**Date:** 2026-08-30
+**Mode:** Brownfield (post-MVP ideation)
+**Previous Version:** 1.0
+
+## What Changed
+
+| Document | Section | Change Type | Summary |
+|----------|---------|-------------|---------|
+| product-vision.md | 6. MVP Scope Summary | Added | Added a "streak continuation hint" bullet to Habit List View scope |
+| product-vision.md | 9. Design Direction | Added | Clarified the hint is static, secondary-styled text, not a popup/notification |
+| concept-of-operations.md | 5. Operational Scenarios (Scenario 2) | Modified | Added a step noting the hint remains visible during daily check-in |
+| concept-of-operations.md | 7. Functional Summary | Added | Added "Streak hint" row to the Active Habits View table |
+| concept-of-operations.md | 9. Glossary | Added | Added "Streak hint" term definition |
+
+## New Capabilities Identified
+
+- Streak continuation hint: a short static line displayed near each habit's streak count on
+  its card, explaining that marking done again tomorrow continues the streak and that a
+  missed day resets it to 1. Rendered as always-visible secondary text (not a toast, popup,
+  or browser notification), so it does not conflict with the existing "no
+  notifications/reminders" MVP boundary or the single-page/no-nav-menu design constraint.
+
+## Priority Signal
+
+Small, additive UI-copy enhancement to the existing streak display (`StreakBadge` component,
+Epic WKhBuVK). No new page, no new navigation, no change to streak arithmetic. Originated
+from a user question about how the streak/"done today" reset actually works, sized via
+`/peak-workflow:triage` as HEAVY only because no existing TOR ID covers explanatory hint
+text — not because it requires broader scope or vision rework.
+
+## Deferred Items
+
+None — this session covered only the streak-hint capability.

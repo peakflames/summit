@@ -1,6 +1,6 @@
 # Summit — Product Vision & Brief
 
-**Document Version:** 1.0
+**Document Version:** 1.2
 **Date:** 2026-08-30
 **Status:** Draft
 
@@ -62,6 +62,9 @@ it done, and watch their streak grow, all stored privately in their own browser.
 **Habit List View**
 - Add a new habit (name only, no extra metadata required)
 - Display all active habits with: name, current streak count, done/not-done state for today
+- Streak continuation hint: a single short static line, shown once in a shared location for
+  the whole habit list (not repeated per card), explains how to keep a streak going (e.g.,
+  "Mark done tomorrow to continue a streak — a missed day resets it to 1")
 - Mark a habit done for today (toggle)
 - Archive a habit (removes it from the active list)
 
@@ -127,8 +130,18 @@ and no loading spinner, because everything was persisted locally.
   since it's the primary motivational signal.
 - Empty states (no habits yet, no archived habits) show helpful guidance text rather than a
   blank screen.
-- Neutral, calm color palette — this is a personal productivity tool, not a gamified/social
-  app; avoid aggressive notification-style UI patterns.
+- Summit adopts the **PeakFlames Design System** (the shared design language for PeakFlames
+  products) as its visual language: a dark-first obsidian canvas with a flame accent, set in
+  the system's type ramp — Archivo for display, IBM Plex Sans for body copy, JetBrains Mono
+  for numeric/technical detail.
+- "Avoid aggressive notification-style UI patterns" still holds, and is expressed in brand
+  terms by the design system's own **"one hot element per view"** rule — only one element
+  (typically the primary action) carries the flame accent at a time, keeping the app calm even
+  with a dark, high-contrast palette.
+- The streak-continuation hint is static, secondary-styled text always rendered once in a
+  shared location for the habit list (not per card) — not a toast/popup/notification —
+  consistent with avoiding aggressive notification-style UI and avoiding repeated, redundant
+  text across every card.
 - Fully responsive — usable on both desktop and mobile browser widths, since a habit check-in
   often happens on a phone.
 
@@ -153,6 +166,7 @@ or polling — all state transitions are triggered directly by user interaction.
 - Data export/import (e.g., JSON download, CSV)
 - Editable habit names post-creation
 - Permanent delete option (distinct from archive)
-- Dark mode / theme toggle
+- Light theme toggle (dark is the default under the PeakFlames Design System; the system
+  ships a `[data-theme="light"]` scope this could switch to)
 - Best-streak (all-time record) tracking, separate from current streak
 - PWA installability for an app-like mobile experience
