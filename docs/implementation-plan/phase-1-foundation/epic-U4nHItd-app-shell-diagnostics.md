@@ -1,7 +1,7 @@
 # Epic U4nHItd: App Shell & Diagnostics
 
 **Phase:** 1 — Foundation
-**Status:** Implemented — 2026-08-30
+**Status:** Complete — 2026-08-30
 **Dependencies:** None
 
 > **Brand:** Use the project's brand guidelines skill for the app shell layout, empty-state
