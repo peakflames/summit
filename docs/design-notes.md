@@ -31,7 +31,7 @@ value, avoiding drift between what's displayed and what's built.
 
 ---
 
-## 3. In-memory walking skeleton for habits (Epic U4nHItd) — replaced by Yz4JE9Z
+## 3. In-memory walking skeleton for habits (Epic U4nHItd) — staged replacement complete
 
 **Decision:** In Epic U4nHItd, the habit list, add-habit input, filter control, and habit
 cards were backed by a module-scoped, in-memory `ShellHabit[]` array. There was no `localStorage`
@@ -42,14 +42,14 @@ habit card rendering to be verified independently before the backend persistence
 validation, archive semantics) existed. This kept the first epic's scope small and allowed
 verification to proceed in parallel with persistence and business logic work.
 
-**Staged Replacement:**
+**Staged Replacement (all completed):**
 - **Epic 1WIBPa0 (Local Persistence):** Replaced the in-memory array with a `localStorage`-backed
   store module (`src/storage/habitStore.ts`), so state survives a page reload.
 - **Epic Yz4JE9Z (Habit Management):** Decomposed the monolithic `src/App.ts` render function
-  into separate component and state modules (see Decision 7 below), added name validation, and
+  into separate component and state modules (see Decision 6 below), added name validation, and
   implemented real archive/unarchive semantics.
-- **Epic WKhBuVK (Daily Check-In & Streaks):** Will add streak math behind the existing
-  done-today button in `HabitCard`.
+- **Epic WKhBuVK (Daily Check-In & Streaks):** Added streak math behind the existing
+  done-today button in `HabitCard` via the `markDoneStreak()` function (see Decision 10 below).
 
 ## 4. `localStorage` persistence schema and streak-recalculation ownership
 
@@ -133,11 +133,45 @@ state change triggers a consistent re-render from the root, ensuring the UI is a
 with the current state. Avoiding imperative DOM mutations reduces the surface area for bugs
 and makes the render contract obvious.
 
-## 9. Known Issues and Deferred Work
+## 9. Streak increment rules via pure function (Epic WKhBuVK)
+
+**Decision:** Streak arithmetic is implemented in `src/state/streakLogic.ts` as a pure
+function `markDoneStreak(habit, today)` that enforces three rules: (1) if marked done again
+today, no-op; (2) if completed yesterday, increment streak; (3) otherwise (gap ≥ 2 days),
+reset streak to 1. The function is called from the mutation layer (`habitActions.markDone`)
+and is kept separate from the load-time staleness recalculation logic
+(`storage/streakRecalculation.ts`), allowing each epic to own one clear lifecycle moment.
+
+**Rationale:** Pure functions are easier to test, reason about, and reuse than stateful
+mutations. Splitting load-time recalculation (Epic 1WIBPa0) from mark-done increment (this
+epic) keeps the two streak-related concerns independent, reducing coupling and the surface
+area for state-ordering bugs.
+
+## 10. Done control idempotency (Epic WKhBuVK)
+
+**Decision:** The "Done today" button on each habit card is made idempotent through both
+logic-level and UI-level guards: (1) `markDoneStreak()` returns a no-op if
+`lastCompletedDate === today`, preventing accidental increment; (2) the button's `disabled`
+attribute is set once a habit is done, making a second click structurally impossible.
+
+**Rationale:** Idempotency protects against accidental duplicate increments from a repeat
+click and makes the button's behavior immediately obvious to the user — once it shows "Done ✓"
+and disables, there is no doubt that clicking again does nothing.
+
+## 11. Streak badge visual prominence (Epic WKhBuVK)
+
+**Decision:** The streak count is rendered in a dedicated `renderStreakBadge()` component
+(`src/components/StreakBadge.ts`) that displays the value at 1.5rem/700 weight in the accent
+color, distinctly larger and bolder than the habit name (1rem/500). The badge includes an
+`aria-label` that reads aloud as a full sentence ("Read 20 minutes, streak 5") for
+accessibility.
+
+**Rationale:** Visual separation makes the streak the most prominent element on the card,
+drawing the eye and reinforcing the streak mechanic. The semantic `aria-label` ensures
+screen-reader users receive the same information without needing to infer the relationship
+between the number and the name.
+
+## 12. Known Issues and Deferred Work
 
 - **No favicon configured:** Every page load triggers a benign browser-initiated `/favicon.ico`
   404. This is cosmetic and not tied to any TOR. Recommend adding a favicon in a future epic.
-- **Streak increment deferred to Epic WKhBuVK:** The done-today toggle in `HabitCard` currently
-  only sets/clears `lastCompletedDate` in `localStorage`. Streak increment logic is owned by
-  Epic WKhBuVK (Daily Check-In & Streaks), which will implement the business rule for when
-  streaks increment vs. reset.
