@@ -15,6 +15,14 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.2.0] — UNDER DEVELOPMENT
+
+### Added
+### Changed
+### Fixed
+
+---
+
 ## [0.1.0] — 30-Aug-2026
 
 Initial development.
