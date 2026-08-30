@@ -53,6 +53,7 @@ while building Summit v0.3.0 with peak-workflow v1.5.0:
 | claude-opus-5 | $12.26 | 99K tok |
 | claude-haiku-4-5-20251001 | $1.43 | 56K tok |
 
+- Claude Code CLI version 2.1.251
 - Cache hit at 99% — most prompts reuse cache
 - 84% one-shot — edits landing first try
 
